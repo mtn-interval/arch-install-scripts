@@ -129,10 +129,28 @@ else
     echo -e "\n${COLOR}No services were disabled.${RESET}\n"
 fi
 
+echo -e "\n${COLOR}Installing yay (AUR helper)...${RESET}\n"
+
+# Step 1: Install Git (if not already installed)
+pacman -S --needed git base-devel
+
+# Step 2: Clone the yay repository from the AUR
+git clone https://aur.archlinux.org/yay.git
+
+# Step 3: Build and install yay
+cd yay
+makepkg -si --noconfirm
+
+# Step 4: Clean up by removing the yay directory
+cd ..
+rm -rf yay
+
+echo -e "\n${COLOR}yay installation complete.${RESET}\n"
+
 # Update the system
 echo -e "\n${COLOR}Updating the system...${RESET}\n"
 sleep 1
-pacman -Syu --noconfirm
+yay -Syu --noconfirm
 
 # Prompt to clean up the script files
 echo -e "\n${COLOR}Do you want to delete the installation scripts (install.sh, post-install.sh, and chroot-install.sh)? [y/N]${RESET}\n"
