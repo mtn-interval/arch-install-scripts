@@ -38,8 +38,8 @@ echo "Configuring sudoers file to allow wheel group..."
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
 # Install networking and utility tools
-echo "Installing git, zip, unzip, net-tools..."
-pacman -S --noconfirm git zip unzip net-tools
+echo "Installing git, wget, zip, unzip, net-tools..."
+pacman -S --noconfirm git wget zip unzip net-tools
 
 # Install and configure TLP for power management
 echo "Installing and configuring TLP..."
