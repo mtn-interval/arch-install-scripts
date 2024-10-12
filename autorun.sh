@@ -11,14 +11,18 @@ echo "=== by Mountain Interval v1.0 ==="
 echo
 pause
 
+# Load keyboard layout
+echo -e "Loading Portuguese keyboard layout."
+loadkeys pt-latin1
+pause
+
 # Prompt the user for connection type
 echo
-echo "Choose your connection type"
+echo "Choose your connection type:"
 echo "1. Wired"
 echo "2. Wireless"
 echo
 read -p "Option: " connection_type
-pause
 
 # Handle wired or wireless connection
 if [ "$connection_type" == "1" ]; then
@@ -34,7 +38,7 @@ elif [ "$connection_type" == "2" ]; then
 
     # Prompt for SSID and connect using iwctl
     echo
-    echo "Connecting to Wi-Fi"
+    echo "Connecting to Wi-Fi."
     echo
     read -p "Please enter your Wi-Fi SSID: " ssid
     read -sp "Please enter the Wi-Fi password: " wifi_password
@@ -110,11 +114,12 @@ echo "=== Package Installation ==="
 echo "Checking if system packages need an update..."
 echo
 pacman -Sy --noconfirm
+pause
 
 echo
-echo "Installing wget and iwctl if not installed..."
+echo "Installing wget if not installed..."
 echo
-pacman -S --noconfirm wget iwctl
+pacman -S --noconfirm wget
 pause
 
 # Download the pre-install script
@@ -153,6 +158,7 @@ if [[ -f pre-install.sh ]]; then
     echo
     echo "Running pre-install.sh..."
     echo
+    pause
     ./pre-install.sh
 else
     echo
@@ -160,10 +166,3 @@ else
     echo
     exit 1
 fi
-pause
-
-# End of script
-echo
-echo "Install script executed. Exiting..."
-echo
-pause
