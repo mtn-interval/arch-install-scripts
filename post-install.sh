@@ -41,6 +41,10 @@ echo -e "\n${COLOR}Setting password for $username...${RESET}\n"
 sleep 1
 passwd "$username"
 
+# Set nano as the default editor
+echo -e "\n${COLOR}Setting nano as the default editor...${RESET}\n"
+export EDITOR=nano
+
 # Install sudo
 echo -e "\n${COLOR}Installing sudo...${RESET}\n"
 sleep 1
@@ -49,7 +53,7 @@ pacman -S --noconfirm sudo
 # Grant sudo privileges to the wheel group
 echo -e "\n${COLOR}Configuring sudoers file to allow wheel group...${RESET}\n"
 sleep 1
-sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+sed -i 's/^#\s*%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Install networking and utility tools
 echo -e "\n${COLOR}Installing git, wget, zip, unzip, net-tools...${RESET}\n"
