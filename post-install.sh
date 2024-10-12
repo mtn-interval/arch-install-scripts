@@ -86,3 +86,18 @@ fi
 
 echo "Updating the system..."
 pacman -Syu --noconfirm
+
+# Prompt to clean up the script files
+echo "Do you want to delete the installation scripts (install.sh and post-install.sh)? [y/N]"
+read -r delete_choice
+
+# If the user chooses 'y' or 'Y', delete the scripts
+if [[ "$delete_choice" == "y" || "$delete_choice" == "Y" ]]; then
+    echo "Deleting install.sh and post-install.sh..."
+    rm -f /root/install.sh /root/post-install.sh
+    echo "Scripts deleted."
+else
+    echo "Scripts were not deleted."
+fi
+
+echo "Post-installation setup complete!"

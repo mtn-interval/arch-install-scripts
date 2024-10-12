@@ -110,6 +110,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo "Exiting chroot..."
 exit
 
+# Copy install.sh and post-install.sh to the new system's root directory
+echo "Copying installation scripts to /root on the new system..."
+cp install.sh /mnt/root/
+cp post-install.sh /mnt/root/
+
 echo "Unmounting all partitions..."
 umount -R /mnt
 
