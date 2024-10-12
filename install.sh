@@ -41,9 +41,9 @@ echo -e "\n${COLOR}Installing base system (base, linux, linux-firmware)...${RESE
 sleep 1
 pacstrap -K /mnt base linux linux-firmware --noconfirm
 
-echo -e "\n${COLOR}Installing essential packages (intel-ucode, e2fsprogs, networkmanager, nano, vim)...${RESET}\n"
+echo -e "\n${COLOR}Installing essential packages (intel-ucode, xf86-video-intel, e2fsprogs, networkmanager, nano, vim)...${RESET}\n"
 sleep 1
-pacstrap -K /mnt intel-ucode e2fsprogs networkmanager nano vim --noconfirm
+pacstrap -K /mnt intel-ucode xf86-video-intel e2fsprogs networkmanager nano vim --noconfirm
 
 echo -e "\n${COLOR}Generating fstab...${RESET}\n"
 sleep 1
@@ -55,6 +55,7 @@ sleep 1
 cp install.sh /mnt/root/
 cp post-install.sh /mnt/root/
 cp chroot-install.sh /mnt/root/
+cp windowmanager.sh /mnt/root/
 
 # Chroot into the new system and run the second script
 echo -e "\n${COLOR}Chrooting into the new system...${RESET}\n"

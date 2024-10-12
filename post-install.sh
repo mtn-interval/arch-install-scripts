@@ -89,6 +89,26 @@ echo -e "\n${COLOR}Installing Glances...${RESET}\n"
 sleep 1
 pacman -S --noconfirm glances
 
+# Install bash-completion
+echo -e "\n${COLOR}Installing bash-completion...${RESET}\n"
+sleep 1
+pacman -S --noconfirm bash-completion
+
+# Add bash-completion configuration to .bashrc
+echo -e "\n${COLOR}Configuring bash-completion in .bashrc...${RESET}\n"
+sleep 1
+if ! grep -q "bash-completion" ~/.bashrc; then
+    echo "[ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion" >> ~/.bashrc
+    echo -e "\n${COLOR}bash-completion added to .bashrc.${RESET}\n"
+else
+    echo -e "\n${COLOR}bash-completion is already configured in .bashrc.${RESET}\n"
+fi
+
+# Reload .bashrc to apply changes
+echo -e "\n${COLOR}Reloading .bashrc to apply changes...${RESET}\n"
+sleep 1
+source ~/.bashrc
+
 # List enabled services
 echo -e "\n${COLOR}Listing enabled services...${RESET}\n"
 sleep 1
@@ -121,8 +141,8 @@ read -r delete_choice
 
 # If the user chooses 'y' or 'Y', delete the scripts
 if [[ "$delete_choice" == "y" || "$delete_choice" == "Y" ]]; then
-    echo -e "\n${COLOR}Deleting install.sh, post-install.sh, and chroot-install.sh...${RESET}\n"
-    rm -f /root/install.sh /root/post-install.sh /root/chroot-install.sh
+    echo -e "\n${COLOR}Deleting install.sh, post-install.sh, chroot-install.sh, and windowmanager.sh ...${RESET}\n"
+    rm -f /root/install.sh /root/post-install.sh /root/chroot-install.sh /root/windowmanager.sh
     echo -e "\n${COLOR}Scripts deleted.${RESET}\n"
 else
     echo -e "\n${COLOR}Scripts were not deleted.${RESET}\n"

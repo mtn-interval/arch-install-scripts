@@ -27,11 +27,12 @@ sleep 1
 wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/install.sh
 wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/chroot-install.sh
 wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/post-install.sh
+wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/windowmanager.sh
 
 # Make the downloaded scripts executable
 echo -e "\n${COLOR}Making the scripts executable...${RESET}\n"
 sleep 1
-chmod +x install.sh chroot-install.sh post-install.sh
+chmod +x install.sh chroot-install.sh post-install.sh windowmanager.sh
 
 # Run install.sh
 echo -e "\n${COLOR}Running the installation script (install.sh)...${RESET}\n"
