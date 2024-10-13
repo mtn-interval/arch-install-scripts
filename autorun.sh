@@ -20,8 +20,8 @@ pause() {
 clear
 
 echo
-echo -e "${CC_HEADER}==== Moutain Interval ====${CC_RESET}"
-echo -e "${CC_HEADER}=== Install Script v1.0 ===${CC_RESET}"
+echo -e "${CC_HEADER}----- Moutain Interval -----${CC_RESET}"
+echo -e "${CC_HEADER}--- Install Script  v1.1 ---${CC_RESET}"
 echo
 pause
 
