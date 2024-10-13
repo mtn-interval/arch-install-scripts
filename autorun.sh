@@ -1,33 +1,48 @@
 #!/bin/bash
 
-# Color Codes for Output
+# Color codes for uutput
 CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background - To mark sections or major steps in the script.
 CC_TEXT='\033[1;31;40m'     # Bold Red on Black background - For general text, prompts, and success messages.
 CC_RESET='\033[0m'          # Reset Color - To reset color coding.
+
+
 
 # Function to pause the script
 pause() {
     sleep 2
 }
 
+
+
 # Define text separator style
 separator() {
-	echo -e "${CC_TEXT}|${CC_RESET}"
+	echo -e "${CC_TEXT}┌───${CC_RESET}"
+	echo -e "${CC_TEXT}│${CC_RESET}"
+	echo -e "${CC_TEXT}│${CC_RESET}"
+	echo -e "${CC_TEXT}│${CC_RESET}"
+	echo -e "${CC_TEXT}¦${CC_RESET}"
 }
 
-# Clear Screen
+
+
+# Clear screen
 clear
 
-# Script Header
-echo -e "${CC_HEADER}----- Moutain Interval -----${CC_RESET}"
-echo -e "${CC_HEADER}--- Install Script  v0.5 ---${CC_RESET}"
+
+
+# Script header
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.6 ──────${CC_RESET}"
 echo
 pause
 
+
+
 # Load keyboard layout
-echo -e "${CC_TEXT}Loading Portuguese keyboard layout.${CC_RESET}"
+echo -e "${CC_TEXT}Loading portuguese keyboard layout.${CC_RESET}"
 loadkeys pt-latin1
 separator
+
+
 
 # Function to configure network
 configure_network() {
@@ -37,21 +52,21 @@ configure_network() {
         read -p "$(echo -e "${CC_TEXT}Choose your connection type: ${CC_RESET}")" connection_type
 
         if [[ "$connection_type" == "1" ]]; then
-            echo -e "${CC_TEXT}You have chosen a wired connection. Skipping Wi-Fi setup...${CC_RESET}"
+            echo -e "${CC_TEXT}You have chosen a wired connection. Skipping wi-fi setup...${CC_RESET}"
             break
         elif [[ "$connection_type" == "2" ]]; then
-            echo -e "${CC_TEXT}You have chosen a wireless connection. Starting Wi-Fi setup...${CC_RESET}"
+            echo -e "${CC_TEXT}You have chosen a wireless connection. Starting wi-fi setup...${CC_RESET}"
 
             # Prompt for SSID and connect using iwctl
-            echo -e "${CC_TEXT}Connecting to Wi-Fi.${CC_RESET}"
-            read -p "$(echo -e "${CC_TEXT}Please enter your Wi-Fi SSID: ${CC_RESET}")" ssid
-            read -sp "$(echo -e "${CC_TEXT}Please enter the Wi-Fi password: ${CC_RESET}")" wifi_password
+            echo -e "${CC_TEXT}Connecting to wi-fi.${CC_RESET}"
+            read -p "$(echo -e "${CC_TEXT}Please enter your wi-fi SSID: ${CC_RESET}")" ssid
+            read -sp "$(echo -e "${CC_TEXT}Please enter the wi-fi password: ${CC_RESET}")" wifi_password
             iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
             if [ $? -eq 0 ]; then
-                echo -e "${CC_TEXT}Connected to Wi-Fi successfully.${CC_RESET}"
+                echo -e "${CC_TEXT}Connected to wi-fi successfully.${CC_RESET}"
                 break
             else
-                echo -e "${CC_TEXT}Failed to connect to Wi-Fi. Please check the SSID and try again.${CC_RESET}"
+                echo -e "${CC_TEXT}Failed to connect to wi-fi. Please check the SSID and try again.${CC_RESET}"
             fi
         else
             echo -e "${CC_TEXT}Invalid option.${CC_RESET}"
@@ -62,6 +77,8 @@ configure_network() {
 
 # Call network configuration
 configure_network
+
+
 
 # Confirm internet connection
 check_internet() {
@@ -85,7 +102,8 @@ if ! check_internet; then
                 configure_network
                 ;;
             n|N)
-                echo -e "${CC_TEXT}Halting the process.${CC_RESET}"
+                echo -e "${CC_TEXT}Exiting...${CC_RESET}"
+                echo
                 exit 1
                 ;;
             *)
@@ -100,32 +118,61 @@ if ! check_internet; then
 fi
 separator
 
+
+
 # Ensure packages are up to date
 echo -e "${CC_TEXT}Checking if system packages need an update...${CC_RESET}"
 pacman -Sy --noconfirm
 separator
+
+
 
 # Install necessary packages
 echo -e "${CC_TEXT}Installing wget if not installed...${CC_RESET}"
 pacman -S --noconfirm wget
 separator
 
+
+
 # Download the pre-install script
 echo -e "${CC_TEXT}Downloading the pre-install script...${CC_RESET}"
-wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
-if [ $? -eq 0 ]; then
-    echo -e "${CC_TEXT}Download successful.${CC_RESET}"
-else
-    echo -e "${CC_TEXT}Failed to download the pre-install script.${CC_RESET}"
-    exit 1
-fi
+while true; do
+    wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
+    if [ $? -eq 0 ]; then
+        echo -e "${CC_TEXT}Download successful.${CC_RESET}"
+        break  # Break the loop if the download is successful
+    else
+        echo -e "${CC_TEXT}Failed to download the pre-install script.${CC_RESET}"
+        while true; do
+            read -p "$(echo -e "${CC_TEXT}Would you like to try downloading again? (y/n): ${CC_RESET}")" retry_option
+            case $retry_option in
+                y|Y)
+                    echo -e "${CC_TEXT}Retrying download...${CC_RESET}"
+                    break  # Break the inner loop to retry the download
+                    ;;
+                n|N)
+                    echo -e "${CC_TEXT}Exiting...${CC_RESET}"
+                    echo
+                    exit 1
+                    ;;
+                *)
+                    echo -e "${CC_TEXT}Please enter 'y' or 'n'.${CC_RESET}"
+                    ;;
+            esac
+        done
+    fi
+done
 separator
 
-# Make the script executable and run it
+
+
+# Make the script executable
 echo -e "${CC_TEXT}Making the pre-install script executable...${CC_RESET}"
 chmod +x pre-install.sh
 separator
 
+
+# Run pre-install
 if [[ -f pre-install.sh ]]; then
     echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
     
@@ -136,6 +183,7 @@ if [[ -f pre-install.sh ]]; then
     separator
     ./pre-install.sh
 else
-    echo -e "${CC_TEXT}pre-install.sh not found. Exiting.${CC_RESET}"
+    echo -e "${CC_TEXT}pre-install.sh not found. Exiting...${CC_RESET}"
+    echo
     exit 1
 fi
