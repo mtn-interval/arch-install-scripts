@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Automation script by Mountain Interval
+
 # Color codes for uutput
 CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background - To mark sections or major steps in the script.
 CC_TEXT='\033[1;31;40m'     # Bold Red on Black background - For general text, prompts, and success messages.
@@ -187,6 +189,7 @@ separator
 echo -e "${CC_TEXT}Making the pre-install script executable...${CC_RESET}"
 chmod +x pre-install.sh
 separator
+
 
 
 # Run pre-install
