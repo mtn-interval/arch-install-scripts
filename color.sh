@@ -26,4 +26,4 @@ show_color_combinations() {
 echo "Displaying Color Sheet with different combinations of styles, foreground, and background colors:"
 show_color_combinations
 
-echo -e "\n\033[0mColor Sheet End. Resetting terminal styles."
+echo -e "\n\033[0mColor Sheet End. Resetting terminal styles..."
