@@ -9,7 +9,7 @@ CC_RESET='\033[0m'          # Reset Color - To reset color coding.
 
 # Function to pause the script
 pause() {
-    sleep 0.5
+    sleep 0.3
 }
 
 
@@ -17,6 +17,7 @@ pause() {
 # Define text separator style
 separator() {
 	echo -e "${CC_TEXT}┌───${CC_RESET}"
+	pause
 	echo -e "${CC_TEXT}│${CC_RESET}"
 	pause
 	echo -e "${CC_TEXT}│${CC_RESET}"
@@ -35,7 +36,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.9 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.01 ──────${CC_RESET}"
 echo
 pause
 
