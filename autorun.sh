@@ -137,7 +137,7 @@ fi
 echo
 echo "Downloading the pre-install script..."
 echo
-wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
+wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
 if [ $? -eq 0 ]; then
     echo
     echo "Download successful."
