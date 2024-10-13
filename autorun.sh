@@ -2,7 +2,7 @@
 
 # Color Codes for Output
 CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background - To mark sections or major steps in the script.
-CC_TEXT='\033[1;31;45m'     # Bold Red on Black background - For general text, prompts, and success messages.
+CC_TEXT='\033[1;31;40m'     # Bold Red on Black background - For general text, prompts, and success messages.
 CC_RESET='\033[0m'          # Reset Color - To reset color coding.
 
 # Function to pause the script
@@ -12,14 +12,16 @@ pause() {
 
 # Define text separator style
 separator() {
-	echo -e "${CC_HEADER}|${CC_RESET}"
+	echo -e "${TEXT}|${CC_RESET}"
 }
 
+# Clear Screen
 clear
 
 # Script Header
 echo -e "${CC_HEADER}----- Moutain Interval -----${CC_RESET}"
 echo -e "${CC_HEADER}--- Install Script  v1.1 ---${CC_RESET}"
+echo
 pause
 
 # Load keyboard layout
@@ -29,7 +31,6 @@ separator
 pause
 
 # Prompt the user for connection type until a valid option is selected
-separator
 while true; do
     echo -e "${CC_TEXT}1. Wired${CC_RESET}"
     echo -e "${CC_TEXT}2. Wireless${CC_RESET}"
