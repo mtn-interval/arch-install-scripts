@@ -36,7 +36,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.04 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.05 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -69,6 +69,7 @@ configure_network() {
             read -sp "$(echo -e "${CC_TEXT}Please enter the wi-fi password: ${CC_RESET}")" wifi_password
             iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
             if [ $? -eq 0 ]; then
+            	echo
                 echo -e "${CC_TEXT}Connected to wi-fi successfully.${CC_RESET}"
                 break
             else
