@@ -36,7 +36,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.03 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.04 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -73,9 +73,11 @@ configure_network() {
                 break
             else
                 echo -e "${CC_TEXT}Failed to connect to wi-fi. Please check the SSID and try again.${CC_RESET}"
+                echo
             fi
         else
             echo -e "${CC_TEXT}Invalid option.${CC_RESET}"
+            echo
         fi
     done
     separator
@@ -101,7 +103,7 @@ check_internet() {
 if ! check_internet; then
     echo -e "${CC_TEXT}No internet connection detected.${CC_RESET}"
     while true; do
-        read -p "$(echo -e "${CC_TEXT}Would you like to reconfigure the network? (y/n): ${CC_RESET}")" retry_option
+        read -p "$(echo -e "${CC_TEXT}No connection detected. Would you like to reconfigure the network? (y/n): ${CC_RESET}")" retry_option
         case $retry_option in
             y|Y)
                 echo
