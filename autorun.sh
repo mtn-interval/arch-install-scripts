@@ -12,19 +12,18 @@ CC_NOTE='\033[1;34m'     # Bright Blue			- Purpose: To highlight something impor
 CC_HEADER='\033[1;34m'   # Bold Blue			- Purpose: To mark sections or major steps in the script.
 CC_RESET='\033[0m'       # Reset Color			- Purpose. To reset color coding.
 
-# Function to wait for user input with a flashing '+' character
+# Function to wait for user input with a flashing '++++' characters
 wait_for_input() {
-    local flashing_char="+"
+    local flashing_chars="++++"
     local delay=0.5  # seconds between flashes
     local i=0
 
     # Background process for flashing character
     while true; do
         if [ $((i % 2)) -eq 0 ]; then
-            echo -ne "${CC_PROMPT}${flashing_char}${CC_RESET}\b"  # \b to keep it in the same spot
+            echo -ne "${CC_PROMPT}${flashing_chars}${CC_RESET}\b\b\b\b"  # \b to keep it in the same spot
         else
-            echo -ne "\b "  # Backspace and clear the flashing character
-            echo -ne "\b"    # Another \b to move the cursor back in position
+            echo -ne "\b\b\b\b    \b\b\b\b"  # Clear the flashing characters and return cursor
         fi
         sleep "$delay"
         i=$((i + 1))
@@ -66,12 +65,12 @@ echo
 read -p "Option: " connection_type
 
 # Handle wired or wireless connection
-if [ "$connection_type" == "1" ]; then
+if [[ "$connection_type" == "1" ]]; then
     echo
     echo "You have chosen a wired connection. Skipping Wi-Fi setup..."
     echo
     pause
-elif [ "$connection_type" == "2" ]; then
+elif [[ "$connection_type" == "2" ]]; then
     echo
     echo "You have chosen a wireless connection. Starting Wi-Fi setup..."
     echo
