@@ -12,7 +12,7 @@ pause() {
 
 # Define text separator style
 separator() {
-	echo -e "${TEXT}|${CC_RESET}"
+	echo -e "${CC_TEXT}|${CC_RESET}"
 }
 
 # Clear Screen
@@ -62,7 +62,6 @@ pause
 
 # Confirm internet connection
 check_internet() {
-    separator
     echo -e "${CC_TEXT}Checking internet connection...${CC_RESET}"
     for site in archlinux.org google.com; do
         if ping -c 1 "$site" &> /dev/null; then
@@ -96,7 +95,6 @@ separator
 pause
 
 # Ensure necessary packages are installed
-separator
 echo -e "${CC_HEADER}--- Package Installation ---${CC_RESET}"
 echo -e "${CC_TEXT}Checking if system packages need an update...${CC_RESET}"
 pacman -Sy --noconfirm
@@ -107,7 +105,6 @@ separator
 pause
 
 # Download the pre-install script
-separator
 echo -e "${CC_TEXT}Downloading the pre-install script...${CC_RESET}"
 wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
 if [ $? -eq 0 ]; then
@@ -120,7 +117,6 @@ separator
 pause
 
 # Make the script executable and run it
-separator
 echo -e "${CC_TEXT}Making the pre-install script executable...${CC_RESET}"
 chmod +x pre-install.sh
 
