@@ -58,6 +58,7 @@ configure_network() {
             echo -e "${CC_TEXT}You have chosen a wireless connection. Starting wi-fi setup...${CC_RESET}"
 
             # Prompt for SSID and connect using iwctl
+            echo
             echo -e "${CC_TEXT}Connecting to wi-fi.${CC_RESET}"
             read -p "$(echo -e "${CC_TEXT}Please enter your wi-fi SSID: ${CC_RESET}")" ssid
             read -sp "$(echo -e "${CC_TEXT}Please enter the wi-fi password: ${CC_RESET}")" wifi_password
