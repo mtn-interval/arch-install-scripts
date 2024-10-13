@@ -21,9 +21,10 @@ wait_for_input() {
     # Background process for flashing character
     while true; do
         if [ $((i % 2)) -eq 0 ]; then
-            echo -ne "${CC_PROMPT}$flashing_char${CC_RESET}"
+            echo -ne "${CC_PROMPT}${flashing_char}${CC_RESET}\b"  # \b to keep it in the same spot
         else
             echo -ne "\b "  # Backspace and clear the flashing character
+            echo -ne "\b"    # Another \b to move the cursor back in position
         fi
         sleep "$delay"
         i=$((i + 1))
@@ -39,8 +40,8 @@ wait_for_input() {
 
 # Function to pause the script for 2 seconds
 pause() {
+	wait_for_input
     sleep 2
-    wait_for_input
 }
 
 clear
