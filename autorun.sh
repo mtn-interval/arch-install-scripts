@@ -156,6 +156,16 @@ chmod +x pre-install.sh
 
 if [[ -f pre-install.sh ]]; then
     echo
+    echo "The system is ready to proceed."
+    read -p "Do you wish to continue with running pre-install.sh? (y/n): " continue_pre_install
+    if [[ "$continue_pre_install" != "y" ]]; then
+        echo
+        echo "Pre-installation process aborted by user."
+        echo
+        exit 1
+    fi
+
+    echo
     echo "Running pre-install.sh..."
     echo
     pause
