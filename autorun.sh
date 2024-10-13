@@ -7,7 +7,7 @@ CC_RESET='\033[0m'          # Reset Color - To reset color coding.
 
 # Function to pause the script
 pause() {
-    sleep 3
+    sleep 2
 }
 
 # Define text separator style
@@ -20,7 +20,7 @@ clear
 
 # Script Header
 echo -e "${CC_HEADER}----- Moutain Interval -----${CC_RESET}"
-echo -e "${CC_HEADER}--- Install Script  v0.2 ---${CC_RESET}"
+echo -e "${CC_HEADER}--- Install Script  v0.5 ---${CC_RESET}"
 echo
 pause
 
@@ -28,7 +28,6 @@ pause
 echo -e "${CC_TEXT}Loading Portuguese keyboard layout.${CC_RESET}"
 loadkeys pt-latin1
 separator
-pause
 
 # Function to configure network
 configure_network() {
@@ -55,11 +54,10 @@ configure_network() {
                 echo -e "${CC_TEXT}Failed to connect to Wi-Fi. Please check the SSID and try again.${CC_RESET}"
             fi
         else
-            echo -e "${CC_TEXT}Invalid option. Please select 1 for Wired or 2 for Wireless.${CC_RESET}"
+            echo -e "${CC_TEXT}Invalid option.${CC_RESET}"
         fi
     done
     separator
-    pause
 }
 
 # Call network configuration
@@ -101,18 +99,16 @@ if ! check_internet; then
     done
 fi
 separator
-pause
 
-# Ensure necessary packages are installed
+# Ensure packages are up to date
 echo -e "${CC_TEXT}Checking if system packages need an update...${CC_RESET}"
 pacman -Sy --noconfirm
 separator
-pause
 
+# Install necessary packages
 echo -e "${CC_TEXT}Installing wget if not installed...${CC_RESET}"
 pacman -S --noconfirm wget
 separator
-pause
 
 # Download the pre-install script
 echo -e "${CC_TEXT}Downloading the pre-install script...${CC_RESET}"
@@ -124,25 +120,20 @@ else
     exit 1
 fi
 separator
-pause
 
 # Make the script executable and run it
 echo -e "${CC_TEXT}Making the pre-install script executable...${CC_RESET}"
 chmod +x pre-install.sh
 separator
-pause
 
 if [[ -f pre-install.sh ]]; then
     echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
-    read -p "$(echo -e "${CC_TEXT}Do you wish to continue with running pre-install.sh? (y/n): ${CC_RESET}")" continue_pre_install
-    if [[ "$continue_pre_install" != "y" ]]; then
-        echo -e "${CC_TEXT}Pre-installation process aborted by user.${CC_RESET}"
-        exit 1
-    fi
-
+    
+    # Prompt for user to press Enter to continue
+    read -p "$(echo -e "${CC_TEXT}Press Enter to continue with running pre-install.sh...${CC_RESET}")"
+    
     echo -e "${CC_TEXT}Running pre-install.sh...${CC_RESET}"
     separator
-    pause
     ./pre-install.sh
 else
     echo -e "${CC_TEXT}pre-install.sh not found. Exiting.${CC_RESET}"
