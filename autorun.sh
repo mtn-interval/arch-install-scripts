@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # Color Codes for Output
-CC_SUCCESS='\033[0;96m'  # Bright Cyan 			- Purpose: To indicate that an operation was successful.
-CC_FAILURE='\033[0;31m'  # Red 					- Purpose: To indicate that an operation failed, but it's not a critical error.
-CC_ERROR='\033[1;31m'    # Bold Red				- Purpose: To indicate critical issues that prevent the script from continuing.
-CC_WARNING='\033[0;35m'  # Magenta				- Purpose: To alert the user of potential issues that may not immediately stop the script, but could cause problems.
-CC_INFO='\033[0;34m'     # Blue					- Purpose: To give general information or updates during the script's execution.
-CC_DEBUG='\033[4;35m' 	 # Underlined Magenta	- Purpose: To provide detailed debugging information for troubleshooting.
-CC_PROMPT='\033[4;34m'   # Underlined Blue		- Purpose: To ask the user for input or confirmation.
-CC_NOTE='\033[1;34m'     # Bright Blue			- Purpose: To highlight something important but not critical.
-CC_HEADER='\033[1;34m'   # Bold Blue			- Purpose: To mark sections or major steps in the script.
-CC_RESET='\033[0m'       # Reset Color			- Purpose. To reset color coding.
+CC_SUCCESS='\033[1;31;40m'  # Bold Red on Black background  - To indicate that an operation was successful.
+CC_FAILURE='\033[1;31;40m'  # Bold Red on Black background  - To indicate that an operation failed, but it's not a critical error.
+CC_ERROR='\033[1;31;40m'    # Bold Red on Black background  - To indicate critical issues that prevent the script from continuing.
+CC_WARNING='\033[1;31;40m'  # Bold Red on Black background  - To alert the user of potential issues that may not immediately stop the script, but could cause problems.
+CC_INFO='\033[1;31;40m'     # Bold Red on Black background  - To give general information or updates during the script's execution.
+CC_DEBUG='\033[1;31;40m'    # Bold Red on Black background  - To provide detailed debugging information for troubleshooting.
+CC_PROMPT='\033[1;31;40m'   # Bold Red on Black background  - To ask the user for input or confirmation.
+CC_NOTE='\033[1;31;40m'     # Bold Red on Black background  - To highlight something important but not critical.
+CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background- To mark sections or major steps in the script.
+CC_RESET='\033[0m'          # Reset Color - To reset color coding.
 
 # Function to pause the script for 2 seconds
 pause() {
@@ -193,3 +193,4 @@ else
     echo
     exit 1
 fi
+	
