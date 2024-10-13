@@ -26,55 +26,55 @@ echo
 pause
 
 # Load keyboard layout
-echo -e "Loading Portuguese keyboard layout."
+echo -e "${CC_INFO}Loading Portuguese keyboard layout.${CC_RESET}"
 loadkeys pt-latin1
 pause
 
 # Prompt the user for connection type until a valid option is selected
 while true; do
     echo
-    echo "Choose your connection type:"
-    echo "1. Wired"
-    echo "2. Wireless"
+    echo -e "${CC_PROMPT}Choose your connection type:${CC_RESET}"
+    echo -e "${CC_INFO}1. Wired${CC_RESET}"
+    echo -e "${CC_INFO}2. Wireless${CC_RESET}"
     echo
-    read -p "Option: " connection_type
+    read -p "$(echo -e "${CC_PROMPT}Option: ${CC_RESET}")" connection_type
 
     # Handle wired or wireless connection
     if [[ "$connection_type" == "1" ]]; then
         echo
-        echo "You have chosen a wired connection. Skipping Wi-Fi setup..."
+        echo -e "${CC_NOTE}You have chosen a wired connection. Skipping Wi-Fi setup...${CC_RESET}"
         echo
         pause
         break
     elif [[ "$connection_type" == "2" ]]; then
         echo
-        echo "You have chosen a wireless connection. Starting Wi-Fi setup..."
+        echo -e "${CC_NOTE}You have chosen a wireless connection. Starting Wi-Fi setup...${CC_RESET}"
         echo
         pause
 
         # Prompt for SSID and connect using iwctl
         echo
-        echo "Connecting to Wi-Fi."
+        echo -e "${CC_INFO}Connecting to Wi-Fi.${CC_RESET}"
         echo
-        read -p "Please enter your Wi-Fi SSID: " ssid
-        read -sp "Please enter the Wi-Fi password: " wifi_password
+        read -p "$(echo -e "${CC_PROMPT}Please enter your Wi-Fi SSID: ${CC_RESET}")" ssid
+        read -sp "$(echo -e "${CC_PROMPT}Please enter the Wi-Fi password: ${CC_RESET}")" wifi_password
         echo
         iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
         if [ $? -eq 0 ]; then
             echo
-            echo "Connected to Wi-Fi successfully."
+            echo -e "${CC_SUCCESS}Connected to Wi-Fi successfully.${CC_RESET}"
             echo
             pause
             break
         else
             echo
-            echo "Failed to connect to Wi-Fi. Please check the SSID and try again."
+            echo -e "${CC_FAILURE}Failed to connect to Wi-Fi. Please check the SSID and try again.${CC_RESET}"
             echo
             continue  # Loop back if Wi-Fi connection fails
         fi
     else
         echo
-        echo "Invalid option. Please select 1 for Wired or 2 for Wireless."
+        echo -e "${CC_WARNING}Invalid option. Please select 1 for Wired or 2 for Wireless.${CC_RESET}"
         echo
     fi
 done
@@ -82,12 +82,12 @@ done
 # Confirm internet connection
 check_internet() {
     echo
-    echo "Checking internet connection..."
+    echo -e "${CC_INFO}Checking internet connection...${CC_RESET}"
     echo
     for site in archlinux.org google.com; do
         if ping -c 1 "$site" &> /dev/null; then
             echo
-            echo "Internet connection confirmed."
+            echo -e "${CC_SUCCESS}Internet connection confirmed.${CC_RESET}"
             echo
             return 0
         fi
@@ -97,27 +97,27 @@ check_internet() {
 
 if ! check_internet; then
     echo
-    echo "No internet connection detected."
+    echo -e "${CC_ERROR}No internet connection detected.${CC_RESET}"
     echo
     while true; do
         echo
-        read -p "Would you like to retry or halt? (r for Retry, h for Halt): " retry_option
+        read -p "$(echo -e "${CC_PROMPT}Would you like to retry or halt? (r for Retry, h for Halt): ${CC_RESET}")" retry_option
         case $retry_option in
             r|R)
                 echo
-                echo "Retrying connection setup..."
+                echo -e "${CC_NOTE}Retrying connection setup...${CC_RESET}"
                 echo
                 exec "$0"  # Restart the script from the beginning
                 ;;
             h|H)
                 echo
-                echo "Halting the process."
+                echo -e "${CC_ERROR}Halting the process.${CC_RESET}"
                 echo
                 exit 1
                 ;;
             *)
                 echo
-                echo "Please enter 'r' to retry or 'h' to halt."
+                echo -e "${CC_WARNING}Please enter 'r' to retry or 'h' to halt.${CC_RESET}"
                 echo
                 ;;
         esac
@@ -127,39 +127,39 @@ pause
 
 # Ensure necessary packages are installed
 echo
-echo "=== Package Installation ==="
-echo "Checking if system packages need an update..."
+echo -e "${CC_HEADER}=== Package Installation ===${CC_RESET}"
+echo -e "${CC_INFO}Checking if system packages need an update...${CC_RESET}"
 echo
 pacman -Sy --noconfirm
 pause
 
 echo
-echo "Installing wget if not installed..."
+echo -e "${CC_INFO}Installing wget if not installed...${CC_RESET}"
 echo
 pacman -S --noconfirm wget
 pause
 
 # Download the pre-install script
 echo
-read -p "Proceed with downloading pre-install script from GitHub? (y/n): " confirm
+read -p "$(echo -e "${CC_PROMPT}Proceed with downloading pre-install script from GitHub? (y/n): ${CC_RESET}")" confirm
 if [[ "$confirm" != "y" ]]; then
     echo
-    echo "Download aborted by user."
+    echo -e "${CC_FAILURE}Download aborted by user.${CC_RESET}"
     echo
     exit 1
 fi
 
 echo
-echo "Downloading the pre-install script..."
+echo -e "${CC_NOTE}Downloading the pre-install script...${CC_RESET}"
 echo
 wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
 if [ $? -eq 0 ]; then
     echo
-    echo "Download successful."
+    echo -e "${CC_SUCCESS}Download successful.${CC_RESET}"
     echo
 else
     echo
-    echo "Failed to download the pre-install script."
+    echo -e "${CC_ERROR}Failed to download the pre-install script.${CC_RESET}"
     echo
     exit 1
 fi
@@ -167,29 +167,29 @@ pause
 
 # Make the script executable and run it
 echo
-echo "Making the pre-install script executable..."
+echo -e "${CC_INFO}Making the pre-install script executable...${CC_RESET}"
 echo
 chmod +x pre-install.sh
 
 if [[ -f pre-install.sh ]]; then
     echo
-    echo "The system is ready to proceed."
-    read -p "Do you wish to continue with running pre-install.sh? (y/n): " continue_pre_install
+    echo -e "${CC_NOTE}The system is ready to proceed.${CC_RESET}"
+    read -p "$(echo -e "${CC_PROMPT}Do you wish to continue with running pre-install.sh? (y/n): ${CC_RESET}")" continue_pre_install
     if [[ "$continue_pre_install" != "y" ]]; then
         echo
-        echo "Pre-installation process aborted by user."
+        echo -e "${CC_FAILURE}Pre-installation process aborted by user.${CC_RESET}"
         echo
         exit 1
     fi
 
     echo
-    echo "Running pre-install.sh..."
+    echo -e "${CC_INFO}Running pre-install.sh...${CC_RESET}"
     echo
     pause
     ./pre-install.sh
 else
     echo
-    echo "pre-install.sh not found. Exiting."
+    echo -e "${CC_ERROR}pre-install.sh not found. Exiting.${CC_RESET}"
     echo
     exit 1
 fi
