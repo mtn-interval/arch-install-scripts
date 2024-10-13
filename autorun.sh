@@ -12,42 +12,16 @@ CC_NOTE='\033[1;34m'     # Bright Blue			- Purpose: To highlight something impor
 CC_HEADER='\033[1;34m'   # Bold Blue			- Purpose: To mark sections or major steps in the script.
 CC_RESET='\033[0m'       # Reset Color			- Purpose. To reset color coding.
 
-# Function to wait for user input with a flashing '++++' characters
-wait_for_input() {
-    local flashing_chars="++++"
-    local delay=0.5  # seconds between flashes
-    local i=0
-
-    # Background process for flashing character
-    while true; do
-        if [ $((i % 2)) -eq 0 ]; then
-            echo -ne "${CC_PROMPT}${flashing_chars}${CC_RESET}\b\b\b\b"  # \b to keep it in the same spot
-        else
-            echo -ne "\b\b\b\b    \b\b\b\b"  # Clear the flashing characters and return cursor
-        fi
-        sleep "$delay"
-        i=$((i + 1))
-
-        # Check if any key was pressed
-        if read -t 0.1 -n 1; then
-            break
-        fi
-    done
-
-    echo  # Move to a new line after key press
-}
-
 # Function to pause the script for 2 seconds
 pause() {
-	wait_for_input
-    sleep 2
+    sleep 5
 }
 
 clear
 
 echo
-echo "=== Arch Linux Install Script ==="
-echo "=== by Mountain Interval v1.0 ==="
+echo "${CC_HEADER}==== Moutain Interval ====${CC_RESET}"
+echo "${CC_HEADER}=== Install Script v1.0 ===${CC_RESET}"
 echo
 pause
 
@@ -56,51 +30,54 @@ echo -e "Loading Portuguese keyboard layout."
 loadkeys pt-latin1
 pause
 
-# Prompt the user for connection type
-echo
-echo "Choose your connection type:"
-echo "1. Wired"
-echo "2. Wireless"
-echo
-read -p "Option: " connection_type
+# Prompt the user for connection type until a valid option is selected
+while true; do
+    echo
+    echo "Choose your connection type:"
+    echo "1. Wired"
+    echo "2. Wireless"
+    echo
+    read -p "Option: " connection_type
 
-# Handle wired or wireless connection
-if [[ "$connection_type" == "1" ]]; then
-    echo
-    echo "You have chosen a wired connection. Skipping Wi-Fi setup..."
-    echo
-    pause
-elif [[ "$connection_type" == "2" ]]; then
-    echo
-    echo "You have chosen a wireless connection. Starting Wi-Fi setup..."
-    echo
-    pause
+    # Handle wired or wireless connection
+    if [[ "$connection_type" == "1" ]]; then
+        echo
+        echo "You have chosen a wired connection. Skipping Wi-Fi setup..."
+        echo
+        pause
+        break
+    elif [[ "$connection_type" == "2" ]]; then
+        echo
+        echo "You have chosen a wireless connection. Starting Wi-Fi setup..."
+        echo
+        pause
 
-    # Prompt for SSID and connect using iwctl
-    echo
-    echo "Connecting to Wi-Fi."
-    echo
-    read -p "Please enter your Wi-Fi SSID: " ssid
-    read -sp "Please enter the Wi-Fi password: " wifi_password
-    echo
-    iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
-    if [ $? -eq 0 ]; then
+        # Prompt for SSID and connect using iwctl
         echo
-        echo "Connected to Wi-Fi successfully."
+        echo "Connecting to Wi-Fi."
         echo
+        read -p "Please enter your Wi-Fi SSID: " ssid
+        read -sp "Please enter the Wi-Fi password: " wifi_password
+        echo
+        iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
+        if [ $? -eq 0 ]; then
+            echo
+            echo "Connected to Wi-Fi successfully."
+            echo
+            pause
+            break
+        else
+            echo
+            echo "Failed to connect to Wi-Fi. Please check the SSID and try again."
+            echo
+            continue  # Loop back if Wi-Fi connection fails
+        fi
     else
         echo
-        echo "Failed to connect to Wi-Fi. Please check the SSID and try again."
+        echo "Invalid option. Please select 1 for Wired or 2 for Wireless."
         echo
-        exit 1
     fi
-    pause
-else
-    echo
-    echo "Invalid option. Please run the script again and select 1 or 2."
-    echo
-    exit 1
-fi
+done
 
 # Confirm internet connection
 check_internet() {
