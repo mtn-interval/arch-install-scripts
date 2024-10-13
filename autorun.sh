@@ -36,7 +36,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.02 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.03 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -106,6 +106,7 @@ if ! check_internet; then
             y|Y)
                 echo
                 echo -e "${CC_TEXT}Reconfiguring network...${CC_RESET}"
+                echo
                 configure_network
                 ;;
             n|N)
@@ -117,6 +118,7 @@ if ! check_internet; then
             *)
                 echo
                 echo -e "${CC_TEXT}Please enter 'y' or 'n'.${CC_RESET}"
+                echo
                 ;;
         esac
         # Re-check internet connection after reconfiguration
