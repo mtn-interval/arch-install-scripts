@@ -36,9 +36,9 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.01 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v0.02 ──────${CC_RESET}"
 echo
-pause
+sleep 1
 
 
 
@@ -57,11 +57,9 @@ configure_network() {
         read -p "$(echo -e "${CC_TEXT}Choose your connection type: ${CC_RESET}")" connection_type
 
         if [[ "$connection_type" == "1" ]]; then
-        	echo
             echo -e "${CC_TEXT}You have chosen a wired connection. Skipping wi-fi setup...${CC_RESET}"
             break
         elif [[ "$connection_type" == "2" ]]; then
-        	echo
             echo -e "${CC_TEXT}You have chosen a wireless connection. Starting wi-fi setup...${CC_RESET}"
 
             # Prompt for SSID and connect using iwctl
@@ -71,15 +69,12 @@ configure_network() {
             read -sp "$(echo -e "${CC_TEXT}Please enter the wi-fi password: ${CC_RESET}")" wifi_password
             iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
             if [ $? -eq 0 ]; then
-            	echo
                 echo -e "${CC_TEXT}Connected to wi-fi successfully.${CC_RESET}"
                 break
             else
-            	echo
                 echo -e "${CC_TEXT}Failed to connect to wi-fi. Please check the SSID and try again.${CC_RESET}"
             fi
         else
-        	echo
             echo -e "${CC_TEXT}Invalid option.${CC_RESET}"
         fi
     done
@@ -104,7 +99,6 @@ check_internet() {
 }
 
 if ! check_internet; then
-	echo
     echo -e "${CC_TEXT}No internet connection detected.${CC_RESET}"
     while true; do
         read -p "$(echo -e "${CC_TEXT}Would you like to reconfigure the network? (y/n): ${CC_RESET}")" retry_option
@@ -154,14 +148,11 @@ echo -e "${CC_TEXT}Downloading the pre-install script...${CC_RESET}"
 while true; do
     wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
     if [ $? -eq 0 ]; then
-    	echo
         echo -e "${CC_TEXT}Download successful.${CC_RESET}"
         break  # Break the loop if the download is successful
     else
-        echo
         echo -e "${CC_TEXT}Failed to download the pre-install script.${CC_RESET}"
         while true; do
-        	echo
             read -p "$(echo -e "${CC_TEXT}Would you like to try downloading again? (y/n): ${CC_RESET}")" retry_option
             case $retry_option in
                 y|Y)
@@ -195,10 +186,9 @@ separator
 
 # Run pre-install
 if [[ -f pre-install.sh ]]; then
-    echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
-    echo
-    
+
     # Prompt for user to press Enter to continue
+    echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
     read -p "$(echo -e "${CC_TEXT}Press Enter to continue with running pre-install.sh...${CC_RESET}")"
     
     echo
