@@ -21,6 +21,7 @@ clear
 # Script Header
 echo -e "${CC_HEADER}----- Moutain Interval -----${CC_RESET}"
 echo -e "${CC_HEADER}--- Install Script  v0.4 ---${CC_RESET}"
+echo
 pause
 
 # Load keyboard layout
