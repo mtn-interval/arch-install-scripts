@@ -20,8 +20,7 @@ clear
 
 # Script Header
 echo -e "${CC_HEADER}----- Moutain Interval -----${CC_RESET}"
-echo -e "${CC_HEADER}--- Install Script  v0.2 ---${CC_RESET}"
-echo
+echo -e "${CC_HEADER}--- Install Script  v0.4 ---${CC_RESET}"
 pause
 
 # Load keyboard layout
@@ -30,35 +29,40 @@ loadkeys pt-latin1
 separator
 pause
 
-# Prompt the user for connection type until a valid option is selected
-while true; do
-    echo -e "${CC_TEXT}1. Wired${CC_RESET}"
-    echo -e "${CC_TEXT}2. Wireless${CC_RESET}"
-    read -p "$(echo -e "${CC_TEXT}Choose your connection type: ${CC_RESET}")" connection_type
+# Function to configure network
+configure_network() {
+    while true; do
+        echo -e "${CC_TEXT}1. Wired${CC_RESET}"
+        echo -e "${CC_TEXT}2. Wireless${CC_RESET}"
+        read -p "$(echo -e "${CC_TEXT}Choose your connection type: ${CC_RESET}")" connection_type
 
-    if [[ "$connection_type" == "1" ]]; then
-        echo -e "${CC_TEXT}You have chosen a wired connection. Skipping Wi-Fi setup...${CC_RESET}"
-        break
-    elif [[ "$connection_type" == "2" ]]; then
-        echo -e "${CC_TEXT}You have chosen a wireless connection. Starting Wi-Fi setup...${CC_RESET}"
-
-        # Prompt for SSID and connect using iwctl
-        echo -e "${CC_TEXT}Connecting to Wi-Fi.${CC_RESET}"
-        read -p "$(echo -e "${CC_TEXT}Please enter your Wi-Fi SSID: ${CC_RESET}")" ssid
-        read -sp "$(echo -e "${CC_TEXT}Please enter the Wi-Fi password: ${CC_RESET}")" wifi_password
-        iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
-        if [ $? -eq 0 ]; then
-            echo -e "${CC_TEXT}Connected to Wi-Fi successfully.${CC_RESET}"
+        if [[ "$connection_type" == "1" ]]; then
+            echo -e "${CC_TEXT}You have chosen a wired connection. Skipping Wi-Fi setup...${CC_RESET}"
             break
+        elif [[ "$connection_type" == "2" ]]; then
+            echo -e "${CC_TEXT}You have chosen a wireless connection. Starting Wi-Fi setup...${CC_RESET}"
+
+            # Prompt for SSID and connect using iwctl
+            echo -e "${CC_TEXT}Connecting to Wi-Fi.${CC_RESET}"
+            read -p "$(echo -e "${CC_TEXT}Please enter your Wi-Fi SSID: ${CC_RESET}")" ssid
+            read -sp "$(echo -e "${CC_TEXT}Please enter the Wi-Fi password: ${CC_RESET}")" wifi_password
+            iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
+            if [ $? -eq 0 ]; then
+                echo -e "${CC_TEXT}Connected to Wi-Fi successfully.${CC_RESET}"
+                break
+            else
+                echo -e "${CC_TEXT}Failed to connect to Wi-Fi. Please check the SSID and try again.${CC_RESET}"
+            fi
         else
-            echo -e "${CC_TEXT}Failed to connect to Wi-Fi. Please check the SSID and try again.${CC_RESET}"
+            echo -e "${CC_TEXT}Invalid option. Please select 1 for Wired or 2 for Wireless.${CC_RESET}"
         fi
-    else
-        echo -e "${CC_TEXT}Invalid option. Please select 1 for Wired or 2 for Wireless.${CC_RESET}"
-    fi
-done
-separator
-pause
+    done
+    separator
+    pause
+}
+
+# Call network configuration
+configure_network
 
 # Confirm internet connection
 check_internet() {
@@ -75,29 +79,34 @@ check_internet() {
 if ! check_internet; then
     echo -e "${CC_TEXT}No internet connection detected.${CC_RESET}"
     while true; do
-        read -p "$(echo -e "${CC_TEXT}Would you like to retry? (y/n): ${CC_RESET}")" retry_option
+        read -p "$(echo -e "${CC_TEXT}Would you like to reconfigure the network? (y/n): ${CC_RESET}")" retry_option
         case $retry_option in
             y|Y)
-                echo -e "${CC_TEXT}Retrying connection setup...${CC_RESET}"
-                exec "$0"  # Restart the script
+                echo -e "${CC_TEXT}Reconfiguring network...${CC_RESET}"
+                configure_network
                 ;;
             n|N)
                 echo -e "${CC_TEXT}Halting the process.${CC_RESET}"
                 exit 1
                 ;;
             *)
-                echo -e "${CC_TEXT}Please enter 'y' to retry or 'n' to halt.${CC_RESET}"
+                echo -e "${CC_TEXT}Please enter 'y' or 'n'.${CC_RESET}"
                 ;;
         esac
+        # Re-check internet connection after reconfiguration
+        if check_internet; then
+            break
+        fi
     done
 fi
 separator
 pause
 
 # Ensure necessary packages are installed
-echo -e "${CC_HEADER}--- Package Installation ---${CC_RESET}"
 echo -e "${CC_TEXT}Checking if system packages need an update...${CC_RESET}"
 pacman -Sy --noconfirm
+separator
+pause
 
 echo -e "${CC_TEXT}Installing wget if not installed...${CC_RESET}"
 pacman -S --noconfirm wget
@@ -119,6 +128,8 @@ pause
 # Make the script executable and run it
 echo -e "${CC_TEXT}Making the pre-install script executable...${CC_RESET}"
 chmod +x pre-install.sh
+separator
+pause
 
 if [[ -f pre-install.sh ]]; then
     echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
