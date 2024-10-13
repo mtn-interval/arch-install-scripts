@@ -1,8 +1,46 @@
 #!/bin/bash
 
+# Color Codes for Output
+CC_SUCCESS='\033[0;96m'  # Bright Cyan 			- Purpose: To indicate that an operation was successful.
+CC_FAILURE='\033[0;31m'  # Red 					- Purpose: To indicate that an operation failed, but it's not a critical error.
+CC_ERROR='\033[1;31m'    # Bold Red				- Purpose: To indicate critical issues that prevent the script from continuing.
+CC_WARNING='\033[0;35m'  # Magenta				- Purpose: To alert the user of potential issues that may not immediately stop the script, but could cause problems.
+CC_INFO='\033[0;34m'     # Blue					- Purpose: To give general information or updates during the script's execution.
+CC_DEBUG='\033[4;35m' 	 # Underlined Magenta	- Purpose: To provide detailed debugging information for troubleshooting.
+CC_PROMPT='\033[4;34m'   # Underlined Blue		- Purpose: To ask the user for input or confirmation.
+CC_NOTE='\033[1;34m'     # Bright Blue			- Purpose: To highlight something important but not critical.
+CC_HEADER='\033[1;34m'   # Bold Blue			- Purpose: To mark sections or major steps in the script.
+CC_RESET='\033[0m'       # Reset Color			- Purpose. To reset color coding.
+
+# Function to wait for user input with a flashing '+' character
+wait_for_input() {
+    local flashing_char="+"
+    local delay=0.5  # seconds between flashes
+    local i=0
+
+    # Background process for flashing character
+    while true; do
+        if [ $((i % 2)) -eq 0 ]; then
+            echo -ne "${CC_PROMPT}$flashing_char${CC_RESET}"
+        else
+            echo -ne "\b "  # Backspace and clear the flashing character
+        fi
+        sleep "$delay"
+        i=$((i + 1))
+
+        # Check if any key was pressed
+        if read -t 0.1 -n 1; then
+            break
+        fi
+    done
+
+    echo  # Move to a new line after key press
+}
+
 # Function to pause the script for 2 seconds
 pause() {
     sleep 2
+    wait_for_input
 }
 
 clear
