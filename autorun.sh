@@ -5,6 +5,8 @@ pause() {
     sleep 2
 }
 
+clear
+
 echo
 echo "=== Arch Linux Install Script ==="
 echo "=== by Mountain Interval v1.0 ==="
