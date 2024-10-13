@@ -13,6 +13,11 @@ pause() {
     sleep 3
 }
 
+# Define text separator style
+separator() {
+	echo -e "${CC_HEADER}------${CC_RESET}"
+}
+
 clear
 
 echo
@@ -23,17 +28,16 @@ pause
 
 # Load keyboard layout
 echo
-echo -e "${CC_HEADER}:::${CC_RESET}" 
+separator
 echo -e "${CC_NOTE}Loading Portuguese keyboard layout.${CC_RESET}"
-echo
 loadkeys pt-latin1
-echo -e "${CC_HEADER}:::${CC_RESET}" 
+separator
 pause
 
 # Prompt the user for connection type until a valid option is selected
+echo
+separator
 while true; do
-    echo
-    echo -e "${CC_HEADER}:::${CC_RESET}"
     echo -e "${CC_NOTE}1. Wired${CC_RESET}"
     echo -e "${CC_NOTE}2. Wireless${CC_RESET}"
     read -p "$(echo -e "${CC_PROMPT}Choose your connection type: ${CC_RESET}")" connection_type
@@ -74,13 +78,13 @@ while true; do
         echo
     fi
 done
-echo -e "${CC_HEADER}:::${CC_RESET}"
+separator
 pause
 
 # Confirm internet connection
 check_internet() {
     echo
-    echo -e "${CC_HEADER}:::${CC_RESET}"
+    separator
     echo -e "${CC_NOTE}Checking internet connection...${CC_RESET}"
     echo
     for site in archlinux.org google.com; do
@@ -122,12 +126,12 @@ if ! check_internet; then
         esac
     done
 fi
-echo -e "${CC_HEADER}:::${CC_RESET}"
+separator
 pause
 
 # Ensure necessary packages are installed
 echo
-echo -e "${CC_HEADER}:::${CC_RESET}"
+separator
 echo -e "${CC_HEADER}--- Package Installation ---${CC_RESET}"
 echo -e "${CC_NOTE}Checking if system packages need an update...${CC_RESET}"
 echo
@@ -137,12 +141,12 @@ echo
 echo -e "${CC_NOTE}Installing wget if not installed...${CC_RESET}"
 echo
 pacman -S --noconfirm wget
-echo -e "${CC_HEADER}:::${CC_RESET}"
+separator
 pause
 
 # Download the pre-install script
 echo
-echo -e "${CC_HEADER}:::${CC_RESET}"
+separator
 echo -e "${CC_NOTE}Downloading the pre-install script...${CC_RESET}"
 echo
 wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
@@ -156,12 +160,12 @@ else
     echo
     exit 1
 fi
-echo -e "${CC_HEADER}:::${CC_RESET}"
+separator
 pause
 
 # Make the script executable and run it
 echo
-echo -e "${CC_HEADER}:::${CC_RESET}"
+separator
 echo -e "${CC_NOTE}Making the pre-install script executable...${CC_RESET}"
 echo
 chmod +x pre-install.sh
@@ -180,7 +184,7 @@ if [[ -f pre-install.sh ]]; then
     echo
     echo -e "${CC_NOTE}Running pre-install.sh...${CC_RESET}"
     echo
-    echo -e "${CC_HEADER}:::${CC_RESET}"
+    separator
     pause
     ./pre-install.sh
 else
