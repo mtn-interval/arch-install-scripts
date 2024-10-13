@@ -1,81 +1,59 @@
 #!/bin/bash
 
 # Color Codes for Output
-CC_SUCCESS='\033[1;31;40m'  # Bold Red on Black background  - To indicate that an operation was successful.
-CC_ERROR='\033[1;31;40m'    # Bold Red on Black background  - To indicate any failure, error, or warning.
-CC_NOTE='\033[1;31;40m'     # Bold Red on Black background  - To give general information or highlight something important but not critical.
-CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background- To mark sections or major steps in the script.
-CC_PROMPT='\033[1;31;40m'   # Bold Red on Black background  - To ask the user for input or confirmation.
+CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background - To mark sections or major steps in the script.
+CC_TEXT='\033[1;31;45m'     # Bold Red on Black background - For general text, prompts, and success messages.
 CC_RESET='\033[0m'          # Reset Color - To reset color coding.
 
-# Function to pause the script for 2 seconds
+# Function to pause the script
 pause() {
     sleep 3
 }
 
 # Define text separator style
 separator() {
-	echo -e "${CC_HEADER}------${CC_RESET}"
+	echo -e "${CC_HEADER}|${CC_RESET}"
 }
 
 clear
 
-echo
+# Script Header
 echo -e "${CC_HEADER}----- Moutain Interval -----${CC_RESET}"
 echo -e "${CC_HEADER}--- Install Script  v1.1 ---${CC_RESET}"
-echo
 pause
 
 # Load keyboard layout
-echo
-separator
-echo -e "${CC_NOTE}Loading Portuguese keyboard layout.${CC_RESET}"
+echo -e "${CC_TEXT}Loading Portuguese keyboard layout.${CC_RESET}"
 loadkeys pt-latin1
 separator
 pause
 
 # Prompt the user for connection type until a valid option is selected
-echo
 separator
 while true; do
-    echo -e "${CC_NOTE}1. Wired${CC_RESET}"
-    echo -e "${CC_NOTE}2. Wireless${CC_RESET}"
-    read -p "$(echo -e "${CC_PROMPT}Choose your connection type: ${CC_RESET}")" connection_type
+    echo -e "${CC_TEXT}1. Wired${CC_RESET}"
+    echo -e "${CC_TEXT}2. Wireless${CC_RESET}"
+    read -p "$(echo -e "${CC_TEXT}Choose your connection type: ${CC_RESET}")" connection_type
 
-    # Handle wired or wireless connection
     if [[ "$connection_type" == "1" ]]; then
-        echo
-        echo -e "${CC_NOTE}You have chosen a wired connection. Skipping Wi-Fi setup...${CC_RESET}"
-        echo
+        echo -e "${CC_TEXT}You have chosen a wired connection. Skipping Wi-Fi setup...${CC_RESET}"
         break
     elif [[ "$connection_type" == "2" ]]; then
-        echo
-        echo -e "${CC_NOTE}You have chosen a wireless connection. Starting Wi-Fi setup...${CC_RESET}"
-        echo
+        echo -e "${CC_TEXT}You have chosen a wireless connection. Starting Wi-Fi setup...${CC_RESET}"
 
         # Prompt for SSID and connect using iwctl
-        echo
-        echo -e "${CC_NOTE}Connecting to Wi-Fi.${CC_RESET}"
-        echo
-        read -p "$(echo -e "${CC_PROMPT}Please enter your Wi-Fi SSID: ${CC_RESET}")" ssid
-        read -sp "$(echo -e "${CC_PROMPT}Please enter the Wi-Fi password: ${CC_RESET}")" wifi_password
-        echo
+        echo -e "${CC_TEXT}Connecting to Wi-Fi.${CC_RESET}"
+        read -p "$(echo -e "${CC_TEXT}Please enter your Wi-Fi SSID: ${CC_RESET}")" ssid
+        read -sp "$(echo -e "${CC_TEXT}Please enter the Wi-Fi password: ${CC_RESET}")" wifi_password
         iwctl station wlan0 connect "$ssid" --passphrase "$wifi_password"
         if [ $? -eq 0 ]; then
-            echo
-            echo -e "${CC_SUCCESS}Connected to Wi-Fi successfully.${CC_RESET}"
-            echo
+            echo -e "${CC_TEXT}Connected to Wi-Fi successfully.${CC_RESET}"
             break
         else
-            echo
-            echo -e "${CC_ERROR}Failed to connect to Wi-Fi. Please check the SSID and try again.${CC_RESET}"
-            echo
-            continue  # Loop back if Wi-Fi connection fails
+            echo -e "${CC_TEXT}Failed to connect to Wi-Fi. Please check the SSID and try again.${CC_RESET}"
         fi
     else
-        echo
-        echo -e "${CC_ERROR}Invalid option. Please select 1 for Wired or 2 for Wireless.${CC_RESET}"
-        echo
+        echo -e "${CC_TEXT}Invalid option. Please select 1 for Wired or 2 for Wireless.${CC_RESET}"
     fi
 done
 separator
@@ -83,15 +61,11 @@ pause
 
 # Confirm internet connection
 check_internet() {
-    echo
     separator
-    echo -e "${CC_NOTE}Checking internet connection...${CC_RESET}"
-    echo
+    echo -e "${CC_TEXT}Checking internet connection...${CC_RESET}"
     for site in archlinux.org google.com; do
         if ping -c 1 "$site" &> /dev/null; then
-            echo
-            echo -e "${CC_SUCCESS}Internet connection confirmed.${CC_RESET}"
-            echo
+            echo -e "${CC_TEXT}Internet connection confirmed.${CC_RESET}"
             return 0
         fi
     done
@@ -99,29 +73,20 @@ check_internet() {
 }
 
 if ! check_internet; then
-    echo
-    echo -e "${CC_ERROR}No internet connection detected.${CC_RESET}"
-    echo
+    echo -e "${CC_TEXT}No internet connection detected.${CC_RESET}"
     while true; do
-        echo
-        read -p "$(echo -e "${CC_PROMPT}Would you like to retry? (y/n): ${CC_RESET}")" retry_option
+        read -p "$(echo -e "${CC_TEXT}Would you like to retry? (y/n): ${CC_RESET}")" retry_option
         case $retry_option in
-            y|R)
-                echo
-                echo -e "${CC_NOTE}Retrying connection setup...${CC_RESET}"
-                echo
-                exec "$0"  # Restart the script from the beginning
+            y|Y)
+                echo -e "${CC_TEXT}Retrying connection setup...${CC_RESET}"
+                exec "$0"  # Restart the script
                 ;;
-            n|H)
-                echo
-                echo -e "${CC_ERROR}Halting the process.${CC_RESET}"
-                echo
+            n|N)
+                echo -e "${CC_TEXT}Halting the process.${CC_RESET}"
                 exit 1
                 ;;
             *)
-                echo
-                echo -e "${CC_ERROR}Please enter 'y' to retry or 'n' to halt.${CC_RESET}"
-                echo
+                echo -e "${CC_TEXT}Please enter 'y' to retry or 'n' to halt.${CC_RESET}"
                 ;;
         esac
     done
@@ -130,66 +95,47 @@ separator
 pause
 
 # Ensure necessary packages are installed
-echo
 separator
 echo -e "${CC_HEADER}--- Package Installation ---${CC_RESET}"
-echo -e "${CC_NOTE}Checking if system packages need an update...${CC_RESET}"
-echo
+echo -e "${CC_TEXT}Checking if system packages need an update...${CC_RESET}"
 pacman -Sy --noconfirm
 
-echo
-echo -e "${CC_NOTE}Installing wget if not installed...${CC_RESET}"
-echo
+echo -e "${CC_TEXT}Installing wget if not installed...${CC_RESET}"
 pacman -S --noconfirm wget
 separator
 pause
 
 # Download the pre-install script
-echo
 separator
-echo -e "${CC_NOTE}Downloading the pre-install script...${CC_RESET}"
-echo
+echo -e "${CC_TEXT}Downloading the pre-install script...${CC_RESET}"
 wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
 if [ $? -eq 0 ]; then
-    echo
-    echo -e "${CC_SUCCESS}Download successful.${CC_RESET}"
-    echo
+    echo -e "${CC_TEXT}Download successful.${CC_RESET}"
 else
-    echo
-    echo -e "${CC_ERROR}Failed to download the pre-install script.${CC_RESET}"
-    echo
+    echo -e "${CC_TEXT}Failed to download the pre-install script.${CC_RESET}"
     exit 1
 fi
 separator
 pause
 
 # Make the script executable and run it
-echo
 separator
-echo -e "${CC_NOTE}Making the pre-install script executable...${CC_RESET}"
-echo
+echo -e "${CC_TEXT}Making the pre-install script executable...${CC_RESET}"
 chmod +x pre-install.sh
 
 if [[ -f pre-install.sh ]]; then
-    echo
-    echo -e "${CC_NOTE}The system is ready to proceed.${CC_RESET}"
-    read -p "$(echo -e "${CC_PROMPT}Do you wish to continue with running pre-install.sh? (y/n): ${CC_RESET}")" continue_pre_install
+    echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
+    read -p "$(echo -e "${CC_TEXT}Do you wish to continue with running pre-install.sh? (y/n): ${CC_RESET}")" continue_pre_install
     if [[ "$continue_pre_install" != "y" ]]; then
-        echo
-        echo -e "${CC_ERROR}Pre-installation process aborted by user.${CC_RESET}"
-        echo
+        echo -e "${CC_TEXT}Pre-installation process aborted by user.${CC_RESET}"
         exit 1
     fi
 
-    echo
-    echo -e "${CC_NOTE}Running pre-install.sh...${CC_RESET}"
-    echo
+    echo -e "${CC_TEXT}Running pre-install.sh...${CC_RESET}"
     separator
     pause
     ./pre-install.sh
 else
-    echo
-    echo -e "${CC_ERROR}pre-install.sh not found. Exiting.${CC_RESET}"
-    echo
+    echo -e "${CC_TEXT}pre-install.sh not found. Exiting.${CC_RESET}"
     exit 1
 fi
