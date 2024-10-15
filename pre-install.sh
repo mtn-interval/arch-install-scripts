@@ -89,9 +89,8 @@ for file in "${files[@]}"; do
     else
         echo -e "${CC_TEXT}${file} not found. Skipping...${CC_RESET}"
     fi
-    separator
 done
-
+separator
 
 
 # Run install.sh
