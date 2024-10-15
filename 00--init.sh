@@ -26,7 +26,7 @@ separator() {
 	pause
 	echo -e "${CC_TEXT}│${CC_RESET}"
 	pause
-	echo -e "${CC_TEXT}│${CC_RESET}"
+	echo -e "${CC_TEXT}▀${CC_RESET}"
 	pause
 }
 
