@@ -2,68 +2,65 @@
 
 # Automation script by Mountain Interval
 
-# CC_TEXT codes for uutput
-CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background - To mark sections or major steps in the script.
-CC_TEXT='\033[1;31;40m'     # Bold Red on Black background - For general text, prompts, and success messages.
-CC_RESET='\033[0m'          # Reset CC_TEXT - To reset CC_TEXT coding.
+# CC_TEXT codes for output
+CC_HEADER='\033[1;35;44m'   # Bold Magenta on Blue background - To mark sections or major steps in the script.
+CC_TEXT='\033[1;34;40m'     # Bold Blue on Black background - For general text, prompts, and success messages.
+CC_RESET='\033[0m'          # Reset CC_TEXT - To reset color coding.
+
 
 
 
 # Function to pause the script
 pause() {
-    sleep 0.3
+    sleep 0.2
 }
+
 
 
 
 # Define text separator style
 separator() {
-    echo -e "${CC_TEXT}┌───${CC_RESET}"
-    pause
     echo -e "${CC_TEXT}│${CC_RESET}"
     pause
     echo -e "${CC_TEXT}│${CC_RESET}"
     pause
     echo -e "${CC_TEXT}│${CC_RESET}"
-    pause
-    echo -e "${CC_TEXT}¦${CC_RESET}"
     pause
 }
 
 
 
+
 # Script header
-echo -e "${CC_HEADER}────── Install  v0.01 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.01 ──────${CC_RESET}"
 echo
 sleep 1
 
 
 
-# Set NTP, and Timezone
-echo -e "\n${COLOR}Enabling NTP for time synchronization...${RESET}\n"
-sleep 1
+# Set NTP and Timezone
+echo -e "${CC_TEXT}Enabling NTP for time synchronization...${CC_RESET}"
 timedatectl set-ntp true
 
-echo -e "\n${COLOR}Setting the timezone to Europe/Lisbon...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Setting the timezone to Europe/Lisbon...${CC_RESET}"
 timedatectl set-timezone Europe/Lisbon
+separator
 
 
 
 # List available disks
-echo -e "\n=== Available Disks ===\n"
+echo -e "Available Disks:"
+echo
 lsblk -d -o NAME,SIZE,TYPE | grep disk
 echo
 
-
-
 # Prompt the user to select a disk
 read -p "Please enter the disk you want to use (e.g., sda): " disk
+echo
 
 
 
 # Confirm the choice and warn about data erasure
-echo
 echo "Warning: All data on /dev/$disk will be erased!"
 read -p "Are you sure you want to continue? (y/n): " confirm
 
@@ -73,6 +70,7 @@ if [[ "$confirm" != "y" ]]; then
     echo
     exit 1
 fi
+
 
 
 
@@ -87,6 +85,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 pause
+
 
 
 
@@ -107,10 +106,10 @@ pause
 
 
 
+
 # Partition the disk using fdisk
 echo
 echo "Starting automatic partitioning of /dev/$disk..."
-sleep 1
 
 (
 echo o      # Create a new empty DOS partition table
@@ -136,9 +135,9 @@ pause
 
 
 
+
 # Formatting the first partition as EXT4
 echo -e "\nFormatting /dev/${disk}1 as EXT4 (root partition)...\n"
-sleep 1
 mkfs.ext4 /dev/${disk}1
 if [ $? -ne 0 ]; then
     echo
@@ -149,9 +148,9 @@ fi
 
 
 
+
 # Mounting the first partition to /mnt
 echo -e "\nMounting /dev/${disk}1 to /mnt...\n"
-sleep 1
 mount /dev/${disk}1 /mnt
 if [ $? -ne 0 ]; then
     echo
@@ -165,30 +164,27 @@ pause
 
 
 
+
 # Install base system
-echo -e "\n${COLOR}Installing base system (base, linux, linux-firmware)...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Installing base system (base, linux, linux-firmware)...${CC_RESET}"
 pacstrap /mnt base linux linux-firmware --noconfirm
 
 
 
 # Install essential packages
-echo -e "\n${COLOR}Installing essential packages (intel-ucode, xf86-video-intel, e2fsprogs, networkmanager, nano, vim)...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Installing essential packages (intel-ucode, xf86-video-intel, e2fsprogs, networkmanager, nano, vim)...${CC_RESET}"
 pacstrap /mnt intel-ucode xf86-video-intel e2fsprogs networkmanager nano vim --noconfirm
 
 
 
 # Generate fstab
-echo -e "\n${COLOR}Generating fstab...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Generating fstab...${CC_RESET}"
 genfstab -U /mnt >> /mnt/etc/fstab
 
 
 
 # Copy necessary install scripts to the new system
-echo -e "\n${COLOR}Copying installation scripts to /mnt/root...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Copying installation scripts to /mnt/root...${CC_RESET}"
 cp install.sh /mnt/root/
 cp post-install.sh /mnt/root/
 cp chroot-install.sh /mnt/root/
@@ -197,21 +193,19 @@ cp windowmanager.sh /mnt/root/
 
 
 # Chroot into the new system and run the second script
-echo -e "\n${COLOR}Chrooting into the new system...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Chrooting into the new system...${CC_RESET}"
 arch-chroot /mnt /root/chroot-install.sh
 
 
 
 # Ensure all changes are written to disk and unmount partitions
-echo -e "\n${COLOR}Unmounting all partitions...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Unmounting all partitions...${CC_RESET}"
 sync  # Ensure changes are written to disk
 umount -R /mnt
 
 
 
 # Reboot the system
-echo -e "\n${COLOR}Rebooting the system in 3 seconds...${RESET}\n"
+echo -e "${CC_TEXT}Rebooting the system in 3 seconds...${CC_RESET}"
 sleep 3
 reboot
