@@ -20,13 +20,11 @@ pause() {
 
 # Define text separator style
 separator() {
-	echo -e "${CC_TEXT}┌───${CC_RESET}"
-	pause
 	echo -e "${CC_TEXT}│${CC_RESET}"
 	pause
-	echo -e "${CC_TEXT}│${CC_RESET}"
+	echo -e "${CC_TEXT}¦${CC_RESET}"
 	pause
-	echo -e "${CC_TEXT}▀${CC_RESET}"
+	echo -e "${CC_TEXT}│${CC_RESET}"
 	pause
 }
 
@@ -40,7 +38,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.03 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.04 ──────${CC_RESET}"
 echo
 sleep 1
 
