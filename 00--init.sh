@@ -9,10 +9,12 @@ CC_RESET='\033[0m'          # Reset Color - To reset color coding.
 
 
 
+
 # Function to pause the script
 pause() {
-    sleep 0.3
+    sleep 0.2
 }
+
 
 
 
@@ -32,15 +34,18 @@ separator() {
 
 
 
+
 # Clear screen
 clear
 
 
 
+
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.0 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.01 ──────${CC_RESET}"
 echo
 sleep 1
+
 
 
 
@@ -48,6 +53,7 @@ sleep 1
 echo -e "${CC_TEXT}Loading portuguese keyboard layout.${CC_RESET}"
 loadkeys pt-latin1
 separator
+
 
 
 
@@ -88,6 +94,7 @@ configure_network() {
 
 # Call network configuration
 configure_network
+
 
 
 
@@ -136,6 +143,7 @@ separator
 
 
 
+
 # Ensure packages are up to date
 echo -e "${CC_TEXT}Checking if system packages need an update...${CC_RESET}"
 pacman -Sy --noconfirm
@@ -143,17 +151,52 @@ separator
 
 
 
+
 # Install necessary packages
 echo -e "${CC_TEXT}Installing wget if not installed...${CC_RESET}"
 pacman -S --noconfirm wget
+
+# Check if wget installed successfully
+if command -v wget >/dev/null 2>&1; then
+    echo -e "${CC_TEXT}wget installed successfully.${CC_RESET}"
+else
+    echo -e "${CC_TEXT}wget installation failed.${CC_RESET}"
+    while true; do
+        read -p "$(echo -e "${CC_TEXT}Would you like to try installing wget again? (y/n): ${CC_RESET}")" retry_option
+        case $retry_option in
+            y|Y)
+                echo
+                echo -e "${CC_TEXT}Retrying installation of wget...${CC_RESET}"
+                pacman -S --noconfirm wget
+                if command -v wget >/dev/null 2>&1; then
+                    echo -e "${CC_TEXT}wget installed successfully.${CC_RESET}"
+                    break
+                else
+                    echo -e "${CC_TEXT}wget installation failed again.${CC_RESET}"
+                fi
+                ;;
+            n|N)
+                echo
+                echo -e "${CC_TEXT}Exiting...${CC_RESET}"
+                echo
+                exit 1
+                ;;
+            *)
+                echo
+                echo -e "${CC_TEXT}Please enter 'y' or 'n'.${CC_RESET}"
+                ;;
+        esac
+    done
+fi
 separator
+
 
 
 
 # Download the pre-install script
 echo -e "${CC_TEXT}Downloading the pre-install script...${CC_RESET}"
 while true; do
-    wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/pre-install.sh
+    wget --no-cache --quiet --show-progress https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/01--pre.sh
     if [ $? -eq 0 ]; then
         echo -e "${CC_TEXT}Download successful.${CC_RESET}"
         break  # Break the loop if the download is successful
@@ -185,27 +228,29 @@ separator
 
 
 
+
 # Make the script executable
-echo -e "${CC_TEXT}Making the pre-install script executable...${CC_RESET}"
-chmod +x pre-install.sh
+echo -e "${CC_TEXT}Making the script executable...${CC_RESET}"
+chmod +x 01--pre.sh
 separator
 
 
 
+
 # Run pre-install
-if [[ -f pre-install.sh ]]; then
+if [[ -f 01--pre.sh ]]; then
 
     # Prompt for user to press Enter to continue
     echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
-    read -p "$(echo -e "${CC_TEXT}Press Enter to continue with running pre-install.sh...${CC_RESET}")"
+    read -p "$(echo -e "${CC_TEXT}Press Enter to continue with the pre-install script...${CC_RESET}")"
     
     echo
-    echo -e "${CC_TEXT}Running pre-install.sh...${CC_RESET}"
+    echo -e "${CC_TEXT}Running 01--pre.sh...${CC_RESET}"
     separator
-    ./pre-install.sh
+    ./01--pre.sh
 else
 	echo
-    echo -e "${CC_TEXT}pre-install.sh not found. Exiting...${CC_RESET}"
+    echo -e "${CC_TEXT}File not found. Exiting...${CC_RESET}"
     echo
     exit 1
 fi

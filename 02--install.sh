@@ -1,19 +1,45 @@
 #!/bin/bash
 
-# Define a color variable for echo messages
-COLOR="\033[1;34m"  # Blue
-RESET="\033[0m"      # Reset to default
+# Automation script by Mountain Interval
 
-# Function to pause the script for 2 seconds
+# CC_TEXT codes for uutput
+CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background - To mark sections or major steps in the script.
+CC_TEXT='\033[1;31;40m'     # Bold Red on Black background - For general text, prompts, and success messages.
+CC_RESET='\033[0m'          # Reset CC_TEXT - To reset CC_TEXT coding.
+
+
+
+# Function to pause the script
 pause() {
-    sleep 2
+    sleep 0.3
 }
 
-# Set keyboard layout, NTP, and timezone
-echo -e "\n${COLOR}Loading Portuguese keyboard layout...${RESET}\n"
-sleep 1
-loadkeys pt-latin1
 
+
+# Define text separator style
+separator() {
+    echo -e "${CC_TEXT}┌───${CC_RESET}"
+    pause
+    echo -e "${CC_TEXT}│${CC_RESET}"
+    pause
+    echo -e "${CC_TEXT}│${CC_RESET}"
+    pause
+    echo -e "${CC_TEXT}│${CC_RESET}"
+    pause
+    echo -e "${CC_TEXT}¦${CC_RESET}"
+    pause
+}
+
+
+
+# Script header
+echo -e "${CC_HEADER}────── Install  v0.01 ──────${CC_RESET}"
+echo
+sleep 1
+
+
+
+# Set NTP, and Timezone
 echo -e "\n${COLOR}Enabling NTP for time synchronization...${RESET}\n"
 sleep 1
 timedatectl set-ntp true
@@ -22,13 +48,19 @@ echo -e "\n${COLOR}Setting the timezone to Europe/Lisbon...${RESET}\n"
 sleep 1
 timedatectl set-timezone Europe/Lisbon
 
+
+
 # List available disks
 echo -e "\n=== Available Disks ===\n"
 lsblk -d -o NAME,SIZE,TYPE | grep disk
 echo
 
+
+
 # Prompt the user to select a disk
 read -p "Please enter the disk you want to use (e.g., sda): " disk
+
+
 
 # Confirm the choice and warn about data erasure
 echo
@@ -42,6 +74,8 @@ if [[ "$confirm" != "y" ]]; then
     exit 1
 fi
 
+
+
 # Wipe the partition table using sgdisk
 echo
 echo "Wiping the partition table on /dev/$disk..."
@@ -53,6 +87,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 pause
+
+
 
 # Detect and wipe all existing partitions using wipefs
 echo
@@ -68,6 +104,8 @@ for partition in $(lsblk -ln -o NAME /dev/$disk | grep "^${disk}[0-9]"); do
     fi
 done
 pause
+
+
 
 # Partition the disk using fdisk
 echo
@@ -96,6 +134,8 @@ echo
 echo "Partitioning complete on /dev/$disk."
 pause
 
+
+
 # Formatting the first partition as EXT4
 echo -e "\nFormatting /dev/${disk}1 as EXT4 (root partition)...\n"
 sleep 1
@@ -106,6 +146,8 @@ if [ $? -ne 0 ]; then
     echo
     exit 1
 fi
+
+
 
 # Mounting the first partition to /mnt
 echo -e "\nMounting /dev/${disk}1 to /mnt...\n"
@@ -121,20 +163,28 @@ fi
 echo -e "\nPartitioning and mounting complete.\n"
 pause
 
+
+
 # Install base system
 echo -e "\n${COLOR}Installing base system (base, linux, linux-firmware)...${RESET}\n"
 sleep 1
 pacstrap /mnt base linux linux-firmware --noconfirm
+
+
 
 # Install essential packages
 echo -e "\n${COLOR}Installing essential packages (intel-ucode, xf86-video-intel, e2fsprogs, networkmanager, nano, vim)...${RESET}\n"
 sleep 1
 pacstrap /mnt intel-ucode xf86-video-intel e2fsprogs networkmanager nano vim --noconfirm
 
+
+
 # Generate fstab
 echo -e "\n${COLOR}Generating fstab...${RESET}\n"
 sleep 1
 genfstab -U /mnt >> /mnt/etc/fstab
+
+
 
 # Copy necessary install scripts to the new system
 echo -e "\n${COLOR}Copying installation scripts to /mnt/root...${RESET}\n"
@@ -144,16 +194,22 @@ cp post-install.sh /mnt/root/
 cp chroot-install.sh /mnt/root/
 cp windowmanager.sh /mnt/root/
 
+
+
 # Chroot into the new system and run the second script
 echo -e "\n${COLOR}Chrooting into the new system...${RESET}\n"
 sleep 1
 arch-chroot /mnt /root/chroot-install.sh
+
+
 
 # Ensure all changes are written to disk and unmount partitions
 echo -e "\n${COLOR}Unmounting all partitions...${RESET}\n"
 sleep 1
 sync  # Ensure changes are written to disk
 umount -R /mnt
+
+
 
 # Reboot the system
 echo -e "\n${COLOR}Rebooting the system in 3 seconds...${RESET}\n"

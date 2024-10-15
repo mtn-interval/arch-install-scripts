@@ -9,10 +9,12 @@ CC_RESET='\033[0m'          # Reset CC_TEXT - To reset CC_TEXT coding.
 
 
 
+
 # Function to pause the script
 pause() {
-    sleep 0.3
+    sleep 0.2
 }
+
 
 
 
@@ -32,16 +34,19 @@ separator() {
 
 
 
+
 # Script header
-echo -e "${CC_HEADER}────── Pre-install  v0.02 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Pre-install  v0.04 ──────${CC_RESET}"
 echo
 sleep 1
 
 
 
+
 # Define Mountain Interval repository
 base_url="https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/"
-files=("install.sh" "chroot-install.sh" "post-install.sh" "windowmanager.sh")
+files=("02--install.sh" "03--chroot.sh" "04--post.sh" "05--wm.sh")
+
 
 
 
@@ -49,7 +54,7 @@ files=("install.sh" "chroot-install.sh" "post-install.sh" "windowmanager.sh")
 for file in "${files[@]}"; do
     echo -e "${CC_TEXT}Downloading ${file}...${CC_RESET}"
     while true; do
-        wget --no-cache "${base_url}${file}"
+        wget --no-cache --quiet --show-progress "${base_url}${file}"
         if [ $? -eq 0 ]; then
             break  # Break the loop if the download is successful
         else
@@ -81,6 +86,8 @@ done
 separator
 
 
+
+
 # Make the downloaded scripts executable
 echo -e "${CC_TEXT}Making the scripts executable...${CC_RESET}"
 for file in "${files[@]}"; do
@@ -93,12 +100,14 @@ done
 separator
 
 
+
+
 # Run install.sh
-if [[ -f install.sh ]]; then
+if [[ -f 02--install.sh ]]; then
 
     # Prompt for user to press Enter to continue
     echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
-    read -p "$(echo -e "${CC_TEXT}Press Enter to continue with running install.sh...${CC_RESET}")"
+    read -p "$(echo -e "${CC_TEXT}Press Enter to continue with the install script...${CC_RESET}")"
     
     echo
     echo -e "${CC_TEXT}Running install.sh...${CC_RESET}"
