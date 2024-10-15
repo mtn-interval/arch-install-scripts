@@ -70,13 +70,13 @@ if [[ "$confirm" != "y" ]]; then
     echo
     exit 1
 fi
+separator
 
                                                                     read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"
 
 
 # Wipe the partition table using sgdisk
-echo
-echo "Wiping the partition table on /dev/$disk..."
+echo -e "${CC_TEXT}Wiping the partition table on /dev/$disk...${CC_RESET}"
 sgdisk --zap-all /dev/$disk
 if [ $? -ne 0 ]; then
     echo
