@@ -72,6 +72,7 @@ while true; do
         n|N)
             echo
             echo -e "${CC_TEXT}Exiting without making any changes.${CC_RESET}"
+            echo
             exit 1
             ;;
         *)
@@ -80,13 +81,12 @@ while true; do
             ;;
     esac
 done
-
 separator
 
 
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"                                                                                                                                        
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XX BREAK XX-----${CC_RESET}")"
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"                                                                                                                                        
 
 
 # Wipe the partition table using sgdisk
