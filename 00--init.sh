@@ -48,7 +48,7 @@ sleep 1
 
 
 # Load keyboard layout
-echo -e "${CC_TEXT}Loading portuguese keyboard layout.${CC_RESET}"
+echo -e "${CC_TEXT}Loading portuguese keyboard layout...${CC_RESET}"
 loadkeys pt-latin1
 echo -e "${CC_TEXT}pt-latin1${CC_RESET}"
 separator
