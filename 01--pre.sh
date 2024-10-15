@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Pre-install  v0.04 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Pre-install  v1.00 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -89,6 +89,7 @@ echo -e "${CC_TEXT}Making the scripts executable...${CC_RESET}"
 for file in "${files[@]}"; do
     if [[ -f $file ]]; then
         chmod +x "$file"
+        echo -e "${CC_TEXT}Executable permissions granted.${CC_RESET}"
     else
         echo -e "${CC_TEXT}${file} not found. Skipping...${CC_RESET}"
     fi
