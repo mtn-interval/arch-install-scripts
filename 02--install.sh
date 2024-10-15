@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.02 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.03 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -61,20 +61,17 @@ echo
 
 
 # Confirm the choice and warn about data erasure
-echo
 echo -e "${CC_TEXT}Warning: All data on /dev/$disk will be erased!${CC_RESET}"
 read -p "$(echo -e "${CC_TEXT}Are you sure you want to continue? (y/n): ${CC_RESET}")" confirm
 
-read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"
-
 if [[ "$confirm" != "y" ]]; then
     echo
-    echo "Operation aborted by user."
+    echo -e "${CC_TEXT}Operation aborted by user.${CC_RESET}"
     echo
     exit 1
 fi
 
-
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"
 
 
 # Wipe the partition table using sgdisk
