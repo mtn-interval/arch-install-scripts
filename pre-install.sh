@@ -51,9 +51,9 @@ for file in "${files[@]}"; do
     while true; do
         wget --no-cache "${base_url}${file}"
         if [ $? -eq 0 ]; then
-            echo -e "${CC_TEXT}Download successful for ${file}.${CC_RESET}"
             break  # Break the loop if the download is successful
         else
+        	echo
             echo -e "${CC_TEXT}Failed to download ${file}.${CC_RESET}"
             while true; do
                 read -p "$(echo -e "${CC_TEXT}Would you like to try downloading ${file} again? (y/n): ${CC_RESET}")" retry_option
@@ -77,9 +77,8 @@ for file in "${files[@]}"; do
             done
         fi
     done
-    separator
 done
-
+separator
 
 
 # Make the downloaded scripts executable
