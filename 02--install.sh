@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.05 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.06 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -61,18 +61,30 @@ read -p "$(echo -e "${CC_TEXT}Please enter the disk you want to use (e.g., sda):
 
 
 # Confirm the choice and warn about data erasure
-echo -e "${CC_TEXT}Warning: All data on /dev/$disk will be erased!${CC_RESET}"
+echo
+echo -e "${CC_TEXT}Warning: All data on /dev/$disk will be erased!${CC_RESET}"            
 read -p "$(echo -e "${CC_TEXT}Are you sure you want to continue? (y/n): ${CC_RESET}")" confirm
-
-if [[ "$confirm" != "y" ]]; then
-    echo
-    echo -e "${CC_TEXT}Operation aborted by user.${CC_RESET}"
-    echo
-    exit 1
-fi
+case $confirm in
+    y|Y)
+        break
+        ;;
+    n|N)
+        echo
+        echo -e "${CC_TEXT}Exiting...${CC_RESET}"
+        echo
+        exit 1
+        ;;
+    *)
+        echo
+        echo -e "${CC_TEXT}Please enter 'y' or 'n'.${CC_RESET}"
+        ;;
+esac
 separator
 
+
                                                                     read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"                                                                                                                                        
 
 
 # Wipe the partition table using sgdisk
