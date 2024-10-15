@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.01 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.02 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -49,20 +49,20 @@ separator
 
 
 # List available disks
-echo -e "Available Disks:"
+echo -e "${CC_TEXT}Available Disks:${CC_RESET}"
 echo
 lsblk -d -o NAME,SIZE,TYPE | grep disk
 echo
 
 # Prompt the user to select a disk
-read -p "Please enter the disk you want to use (e.g., sda): " disk
+read -sp "$(echo -e "${CC_TEXT}Please enter the disk you want to use (e.g., sda): ${CC_RESET}")" disk
 echo
 
 
 
 # Confirm the choice and warn about data erasure
-echo "Warning: All data on /dev/$disk will be erased!"
-read -p "Are you sure you want to continue? (y/n): " confirm
+echo -e "${CC_TEXT}Warning: All data on /dev/$disk will be erased!${CC_RESET}"
+read -sp "$(echo -e "${CC_TEXT}Are you sure you want to continue? (y/n): ${CC_RESET}")" confirm
 
 if [[ "$confirm" != "y" ]]; then
     echo
