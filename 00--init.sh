@@ -42,7 +42,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.01 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.02 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -52,6 +52,7 @@ sleep 1
 # Load keyboard layout
 echo -e "${CC_TEXT}Loading portuguese keyboard layout.${CC_RESET}"
 loadkeys pt-latin1
+echo -e "${CC_TEXT}Loaded pt-latin1.${CC_RESET}"
 separator
 
 
@@ -145,22 +146,23 @@ separator
 
 
 # Ensure packages are up to date
-echo -e "${CC_TEXT}Checking if system packages need an update...${CC_RESET}"
+echo -e "${CC_TEXT}Synchronizing package database...${CC_RESET}"
 pacman -Sy --noconfirm
+echo -e "${CC_TEXT}Local database updated.${CC_RESET}"
 separator
 
 
 
 
 # Install necessary packages
-echo -e "${CC_TEXT}Installing wget if not installed...${CC_RESET}"
+echo -e "${CC_TEXT}Installing wget...${CC_RESET}"
 pacman -S --noconfirm wget
 
 # Check if wget installed successfully
 if command -v wget >/dev/null 2>&1; then
-    echo -e "${CC_TEXT}wget installed successfully.${CC_RESET}"
+    echo -e "${CC_TEXT}Installed successfully.${CC_RESET}"
 else
-    echo -e "${CC_TEXT}wget installation failed.${CC_RESET}"
+    echo -e "${CC_TEXT}Installation failed.${CC_RESET}"
     while true; do
         read -p "$(echo -e "${CC_TEXT}Would you like to try installing wget again? (y/n): ${CC_RESET}")" retry_option
         case $retry_option in
@@ -169,10 +171,10 @@ else
                 echo -e "${CC_TEXT}Retrying installation of wget...${CC_RESET}"
                 pacman -S --noconfirm wget
                 if command -v wget >/dev/null 2>&1; then
-                    echo -e "${CC_TEXT}wget installed successfully.${CC_RESET}"
+                    echo -e "${CC_TEXT}Installed successfully.${CC_RESET}"
                     break
                 else
-                    echo -e "${CC_TEXT}wget installation failed again.${CC_RESET}"
+                    echo -e "${CC_TEXT}Installation failed again.${CC_RESET}"
                 fi
                 ;;
             n|N)
@@ -232,6 +234,7 @@ separator
 # Make the script executable
 echo -e "${CC_TEXT}Making the script executable...${CC_RESET}"
 chmod +x 01--pre.sh
+echo -e "${CC_TEXT}Executable permission granted.${CC_RESET}"
 separator
 
 
