@@ -2,10 +2,10 @@
 
 # Automation script by Mountain Interval
 
-# Color codes for uutput
-CC_HEADER='\033[1;31;45m'   # Bold Red on Magenta background - To mark sections or major steps in the script.
-CC_TEXT='\033[1;31;40m'     # Bold Red on Black background - For general text, prompts, and success messages.
-CC_RESET='\033[0m'          # Reset Color - To reset color coding.
+# CC_TEXT codes for output
+CC_HEADER='\033[1;34;45m'   # Bold Blue on Magenta background - To mark sections or major steps in the script.
+CC_TEXT='\033[1;34;40m'     # Bold Blue on Black background - For general text, prompts, and success messages.
+CC_RESET='\033[0m'          # Reset CC_TEXT - To reset color coding.
 
 
 
