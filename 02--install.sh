@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.06 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.07 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -63,22 +63,24 @@ read -p "$(echo -e "${CC_TEXT}Please enter the disk you want to use (e.g., sda):
 # Confirm the choice and warn about data erasure
 echo
 echo -e "${CC_TEXT}Warning: All data on /dev/$disk will be erased!${CC_RESET}"            
-read -p "$(echo -e "${CC_TEXT}Are you sure you want to continue? (y/n): ${CC_RESET}")" confirm
-case $confirm in
-    y|Y)
-        break
-        ;;
-    n|N)
-        echo
-        echo -e "${CC_TEXT}Exiting...${CC_RESET}"
-        echo
-        exit 1
-        ;;
-    *)
-        echo
-        echo -e "${CC_TEXT}Please enter 'y' or 'n'.${CC_RESET}"
-        ;;
-esac
+while true; do
+    read -p "$(echo -e "${CC_TEXT}Are you sure you want to continue? (y/n): ${CC_RESET}")" confirm
+    case $confirm in
+        y|Y)
+            break  # Break the loop and continue to the next step
+            ;;
+        n|N)
+            echo
+            echo -e "${CC_TEXT}Exiting without making any changes.${CC_RESET}"
+            exit 1
+            ;;
+        *)
+            echo
+            echo -e "${CC_TEXT}Please enter 'y' or 'n'.${CC_RESET}"
+            ;;
+    esac
+done
+
 separator
 
 
