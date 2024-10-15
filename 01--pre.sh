@@ -98,7 +98,7 @@ separator
 
 
 
-# Run install.sh
+# Run install
 if [[ -f 02--install.sh ]]; then
 
     # Prompt for user to press Enter to continue
@@ -106,12 +106,12 @@ if [[ -f 02--install.sh ]]; then
     read -p "$(echo -e "${CC_TEXT}Press Enter to continue with the install script...${CC_RESET}")"
     
     echo
-    echo -e "${CC_TEXT}Running install.sh...${CC_RESET}"
+    echo -e "${CC_TEXT}Running 02--install.sh...${CC_RESET}"
     separator
-    ./install.sh
+    ./02--install.sh
 else
 	echo
-    echo -e "${CC_TEXT}install.sh not found. Exiting...${CC_RESET}"
+    echo -e "${CC_TEXT}File not found. Exiting...${CC_RESET}"
     echo
     exit 1
 fi
