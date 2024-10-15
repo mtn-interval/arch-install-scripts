@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.03 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.05 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -56,7 +56,7 @@ echo
 
 # Prompt the user to select a disk
 read -p "$(echo -e "${CC_TEXT}Please enter the disk you want to use (e.g., sda): ${CC_RESET}")" disk
-echo
+
 
 
 
