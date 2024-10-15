@@ -55,14 +55,17 @@ lsblk -d -o NAME,SIZE,TYPE | grep disk
 echo
 
 # Prompt the user to select a disk
-read -sp "$(echo -e "${CC_TEXT}Please enter the disk you want to use (e.g., sda): ${CC_RESET}")" disk
+read -p "$(echo -e "${CC_TEXT}Please enter the disk you want to use (e.g., sda): ${CC_RESET}")" disk
 echo
 
 
 
 # Confirm the choice and warn about data erasure
+echo
 echo -e "${CC_TEXT}Warning: All data on /dev/$disk will be erased!${CC_RESET}"
-read -sp "$(echo -e "${CC_TEXT}Are you sure you want to continue? (y/n): ${CC_RESET}")" confirm
+read -p "$(echo -e "${CC_TEXT}Are you sure you want to continue? (y/n): ${CC_RESET}")" confirm
+
+read -p "$(echo -e "${CC_HEADER}-----XXXXXXXX-----${CC_RESET}")"
 
 if [[ "$confirm" != "y" ]]; then
     echo
