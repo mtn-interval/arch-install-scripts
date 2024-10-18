@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.12 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.13 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -105,8 +105,12 @@ pause
 echo
 echo "Detecting and wiping filesystem signatures from all partitions on /dev/$disk..."
 
-# Get list of partitions
-partitions=$(lsblk -ln -o NAME /dev/$disk | grep "^${disk}[0-9]")
+# Debug: Show the raw output of lsblk for verification
+echo "Raw lsblk output:"
+lsblk -ln -o NAME /dev/$disk
+
+# Get list of partitions with a robust grep pattern
+partitions=$(lsblk -ln -o NAME /dev/$disk | grep -E "^${disk}[0-9]+$")
 
 # Debug: Print detected partitions for verification
 echo "Detected partitions: $partitions"
