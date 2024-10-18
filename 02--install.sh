@@ -181,48 +181,51 @@ if [ $? -ne 0 ]; then
     echo
     exit 1
 fi
-echo
 echo -e "${CC_TEXT}Partitioning and mounting complete.${CC_RESET}"
 separator
 
 
 
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XX BREAK XX-----${CC_RESET}")"
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"  
+
 # Install base system
 echo -e "${CC_TEXT}Installing base system (base, linux, linux-firmware)...${CC_RESET}"
-# pacstrap /mnt base linux linux-firmware --noconfirm
+pacstrap /mnt base linux linux-firmware --noconfirm
 separator
 
 
 
 
 # Install essential packages
-echo -e "${CC_TEXT}Installing essential packages (intel-ucode, xf86-video-intel, e2fsprogs, networkmanager, nano, vim)...${CC_RESET}"
-# pacstrap /mnt intel-ucode xf86-video-intel e2fsprogs networkmanager nano vim --noconfirm
+echo -e "${CC_TEXT}Installing essential packages (intel-ucode, xf86-video-intel, e2fsprogs, networkmanager, nano)...${CC_RESET}"
+pacstrap /mnt intel-ucode xf86-video-intel e2fsprogs networkmanager nano --noconfirm
 separator
+
+
 
 
 # Generate fstab
 echo -e "${CC_TEXT}Generating fstab...${CC_RESET}"
-# genfstab -U /mnt >> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 separator
+
+
 
 
 # Copy necessary install scripts to the new system
 echo -e "${CC_TEXT}Copying installation scripts to /mnt/root...${CC_RESET}"
-# cp install.sh /mnt/root/
-# cp post-install.sh /mnt/root/
-# cp chroot-install.sh /mnt/root/
-# cp windowmanager.sh /mnt/root/
+cp *.sh /mnt/root/
 separator
+
+
 
 
 # Chroot into the new system and run the second script
 echo -e "${CC_TEXT}Chrooting into the new system...${CC_RESET}"
+separator
 # arch-chroot /mnt /root/chroot-install.sh
 separator
+
+
 
 
 # Ensure all changes are written to disk and unmount partitions
@@ -230,6 +233,8 @@ echo -e "${CC_TEXT}Unmounting all partitions...${CC_RESET}"
 sync  # Ensure changes are written to disk
 umount -R /mnt
 separator
+
+
 
 
 # Reboot the system
