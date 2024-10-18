@@ -134,7 +134,7 @@ else
 fi
 pause
 
-
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
 
 
 # Partition the disk using fdisk
