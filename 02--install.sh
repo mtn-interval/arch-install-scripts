@@ -61,11 +61,11 @@ while true; do
     # Check if the selected disk is valid
     if lsblk -d -n -o NAME | grep -qw "$disk"; then
         echo
-        echo "Valid disk selected: /dev/$disk"
+        echo -e "${CC_TEXT}Valid disk selected: /dev/$disk${CC_RESET}"
         break  # Exit the loop if the disk is valid
     else
         echo
-        echo "Invalid disk selected: $disk. Please try again."
+        echo -e "${CC_TEXT}Invalid disk selected: $disk. Please try again.${CC_RESET}"
         echo
     fi
 done
