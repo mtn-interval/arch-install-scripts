@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.14 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.15 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -49,13 +49,26 @@ separator
 
 
 # List available disks
-echo -e "${CC_TEXT}Available Disks:${CC_RESET}"
-echo
-lsblk -d -o NAME,SIZE,TYPE | grep disk
-echo
+while true; do
+    echo -e "${CC_TEXT}Available Disks:${CC_RESET}"
+    echo
+    lsblk -d -o NAME,SIZE,TYPE | grep disk
+    echo
 
-# Prompt the user to select a disk
-read -p "$(echo -e "${CC_TEXT}Please enter the disk you want to use (e.g., sda): ${CC_RESET}")" disk
+    # Prompt the user to select a disk
+    read -p "$(echo -e "${CC_TEXT}Please enter the disk you want to use (e.g., sda): ${CC_RESET}")" disk
+
+    # Check if the selected disk is valid
+    if lsblk -d -n -o NAME | grep -qw "$disk"; then
+        echo
+        echo "Valid disk selected: /dev/$disk"
+        break  # Exit the loop if the disk is valid
+    else
+        echo
+        echo "Invalid disk selected: $disk. Please try again."
+        echo
+    fi
+done
 
 
 
@@ -84,21 +97,6 @@ done
 separator
 
                                                                                                                                       
-
-
-# # Wipe the partition table using sgdisk
-# echo -e "${CC_TEXT}Wiping the partition table on /dev/$disk...${CC_RESET}"
-# sgdisk --zap-all /dev/$disk
-# if [ $? -ne 0 ]; then
-#     echo
-#     echo "Failed to wipe partition table on /dev/$disk. Exiting."
-#     echo
-#     exit 1
-# fi
-# pause
-
-
-
 
 
 # Detect and wipe all existing partitions using wipefs
