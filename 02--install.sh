@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.19 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.20 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -116,7 +116,7 @@ if [ -z "$partitions" ]; then
 else
     for partition in $partitions; do
         # Ensure we are passing full /dev/ path to wipefs
-        wipefs -a "/dev/$partition"  # Correct usage with full path for each partition
+        wipefs -fa "/dev/$partition"  # Correct usage with full path for each partition
         if [ $? -ne 0 ]; then
             echo
             echo -e "${CC_TEXT}Failed to wipe /dev/$partition. Exiting.${CC_RESET}"
