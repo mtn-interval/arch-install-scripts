@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.18 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.19 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -100,7 +100,7 @@ separator
 
 
 # Detect and wipe all existing partitions using wipefs
-echo -e "${CC_HEADER}Detecting and wiping filesystem signatures from all partitions on /dev/$disk...${CC_RESET}"
+echo -e "${CC_TEXT}Detecting and wiping filesystem signatures from all partitions on /dev/$disk...${CC_RESET}"
 
 # Get list of partitions with a robust grep pattern
 partitions=$(lsblk -ln -o NAME /dev/$disk | grep -E "^${disk}[0-9]+$")
@@ -112,14 +112,14 @@ echo
 
 # Check if any partitions were found
 if [ -z "$partitions" ]; then
-    echo -e "${CC_HEADER}No partitions found on /dev/$disk.${CC_RESET}"
+    echo -e "${CC_TEXT}No partitions found on /dev/$disk.${CC_RESET}"
 else
     for partition in $partitions; do
         # Ensure we are passing full /dev/ path to wipefs
         wipefs -a "/dev/$partition"  # Correct usage with full path for each partition
         if [ $? -ne 0 ]; then
             echo
-            echo -e "${CC_HEADER}Failed to wipe /dev/$partition. Exiting.${CC_RESET}"
+            echo -e "${CC_TEXT}Failed to wipe /dev/$partition. Exiting.${CC_RESET}"
             echo
             exit 1
         fi
@@ -127,11 +127,11 @@ else
 fi
 separator
 
-
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
 
 
 # Partition the disk using fdisk
-echo -e "${CC_HEADER}Starting automatic partitioning of /dev/$disk...${CC_RESET}"
+echo -e "${CC_TEXT}Starting automatic partitioning of /dev/$disk...${CC_RESET}"
 
 (
 echo o      # Create a new empty DOS partition table
@@ -146,13 +146,13 @@ echo w      # Write changes
 
 if [ $? -ne 0 ]; then
     echo
-    echo -e "${CC_HEADER}Partitioning failed on /dev/$disk. Exiting.${CC_RESET}"
+    echo -e "${CC_TEXT}Partitioning failed on /dev/$disk. Exiting.${CC_RESET}"
     echo
     exit 1
 fi
 
 echo
-echo -e "${CC_HEADER}Partitioning complete on /dev/$disk.${CC_RESET}"
+echo -e "${CC_TEXT}Partitioning complete on /dev/$disk.${CC_RESET}"
 separator
                                                                     read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
 
