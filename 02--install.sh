@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.20 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.21 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -127,7 +127,7 @@ else
 fi
 separator
 
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
+
 
 
 # Partition the disk using fdisk
@@ -154,12 +154,12 @@ fi
 echo
 echo -e "${CC_TEXT}Partitioning complete on /dev/$disk.${CC_RESET}"
 separator
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
+
 
 
 
 # Formatting the first partition as EXT4
-echo -e "\nFormatting /dev/${disk}1 as EXT4 (root partition)...\n"
+echo -e "${CC_TEXT}Formatting /dev/${disk}1 as EXT4 (root partition)...${CC_RESET}"
 mkfs.ext4 /dev/${disk}1
 if [ $? -ne 0 ]; then
     echo
