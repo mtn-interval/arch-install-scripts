@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.13 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.14 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -86,16 +86,16 @@ separator
                                                                                                                                       
 
 
-# Wipe the partition table using sgdisk
-echo -e "${CC_TEXT}Wiping the partition table on /dev/$disk...${CC_RESET}"
-sgdisk --zap-all /dev/$disk
-if [ $? -ne 0 ]; then
-    echo
-    echo "Failed to wipe partition table on /dev/$disk. Exiting."
-    echo
-    exit 1
-fi
-pause
+# # Wipe the partition table using sgdisk
+# echo -e "${CC_TEXT}Wiping the partition table on /dev/$disk...${CC_RESET}"
+# sgdisk --zap-all /dev/$disk
+# if [ $? -ne 0 ]; then
+#     echo
+#     echo "Failed to wipe partition table on /dev/$disk. Exiting."
+#     echo
+#     exit 1
+# fi
+# pause
 
 
 
