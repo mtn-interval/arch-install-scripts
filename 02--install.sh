@@ -222,7 +222,7 @@ separator
 # Chroot into the new system and run the second script
 echo -e "${CC_TEXT}Chrooting into the new system...${CC_RESET}"
 separator
-# arch-chroot /mnt /root/chroot-install.sh
+arch-chroot /mnt /root/03--chroot.sh
 separator
 
 
