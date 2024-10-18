@@ -142,7 +142,7 @@ echo        # Default - first sector
 echo        # Default - last sector (use full disk)
 echo a      # Make partition bootable
 echo w      # Write changes
-) | fdisk /dev/$disk
+) | fdisk --color=never /dev/$disk
 
 if [ $? -ne 0 ]; then
     echo
