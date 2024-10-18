@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Configure new system  v0.01 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Change root into the new system  v0.02 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -126,6 +126,9 @@ grub-install --target=i386-pc /dev/sda
 echo -e "${CC_TEXT}Generating GRUB configuration...${CC_RESET}"
 grub-mkconfig -o /boot/grub/grub.cfg
 separator
+
+
+
 
 # Exit chroot
 echo -e "${CC_TEXT}Exiting chroot...${CC_RESET}"
