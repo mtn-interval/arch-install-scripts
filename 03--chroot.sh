@@ -130,7 +130,7 @@ separator
 
 
 # Prompt the user for a new username
-echo -e "\n${COLOR}Please enter the username for the new user:${RESET}\n"
+echo -e "${CC_TEXT}Please enter the username for the new user:${CC_RESET}"
 read username
 separator
 
@@ -138,14 +138,14 @@ separator
 
 
 # Create the new user and prompt for password
-echo -e "\n${COLOR}Creating user $username...${RESET}\n"
+echo -e "${CC_TEXT}Creating user $username...${CC_RESET}"
 useradd -m -G wheel -s /bin/bash "$username"
 
-echo -e "\n${COLOR}Setting password for $username...${RESET}\n"
+echo -e "${CC_TEXT}Setting password for $username...${CC_RESET}"
 passwd "$username"
 
 # Grant sudo privileges to the wheel group
-echo -e "\n${COLOR}Configuring sudoers file to allow wheel group...${RESET}\n"
+echo -e "${CC_TEXT}Configuring sudoers file to allow wheel group...${CC_RESET}"
 sed -i 's/^#\s*%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 separator
 
