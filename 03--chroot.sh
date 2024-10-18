@@ -129,6 +129,27 @@ separator
 
 
 
+# Prompt the user for a new username
+echo -e "\n${COLOR}Please enter the username for the new user:${RESET}\n"
+read username
+separator
+
+
+
+
+# Create the new user and prompt for password
+echo -e "\n${COLOR}Creating user $username...${RESET}\n"
+useradd -m -G wheel -s /bin/bash "$username"
+
+echo -e "\n${COLOR}Setting password for $username...${RESET}\n"
+passwd "$username"
+
+# Grant sudo privileges to the wheel group
+echo -e "\n${COLOR}Configuring sudoers file to allow wheel group...${RESET}\n"
+sed -i 's/^#\s*%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+separator
+
+
 
 # Exit chroot
 echo -e "${CC_TEXT}Exiting chroot...${CC_RESET}"

@@ -196,8 +196,8 @@ separator
 
 
 # Install essential packages
-echo -e "${CC_TEXT}Installing essential packages (intel-ucode, xf86-video-intel, e2fsprogs, networkmanager, nano)...${CC_RESET}"
-pacstrap /mnt intel-ucode xf86-video-intel e2fsprogs networkmanager nano --noconfirm
+echo -e "${CC_TEXT}Installing essential packages (intel-ucode, xf86-video-intel, e2fsprogs, sudo, networkmanager, nano)...${CC_RESET}"
+pacstrap /mnt intel-ucode xf86-video-intel e2fsprogs sudo networkmanager nano --noconfirm
 separator
 
 
@@ -240,4 +240,4 @@ separator
 # Reboot the system
 echo -e "${CC_TEXT}Rebooting the system in 3 seconds...${CC_RESET}"
 sleep 3
-# reboot
+reboot

@@ -27,33 +27,33 @@ echo -e "\n${COLOR}Connecting to Wi-Fi network...${RESET}\n"
 sleep 1
 nmcli device wifi connect "$ssid" password "$password"
 
-# Prompt the user for a new username
-echo -e "\n${COLOR}Please enter the username for the new user:${RESET}\n"
-sleep 1
-read username
+# # Prompt the user for a new username
+# echo -e "\n${COLOR}Please enter the username for the new user:${RESET}\n"
+# sleep 1
+# read username
 
-# Create the new user and prompt for password
-echo -e "\n${COLOR}Creating user $username...${RESET}\n"
-sleep 1
-useradd -m -G wheel -s /bin/bash "$username"
+# # Create the new user and prompt for password
+# echo -e "\n${COLOR}Creating user $username...${RESET}\n"
+# sleep 1
+# useradd -m -G wheel -s /bin/bash "$username"
 
-echo -e "\n${COLOR}Setting password for $username...${RESET}\n"
-sleep 1
-passwd "$username"
+# echo -e "\n${COLOR}Setting password for $username...${RESET}\n"
+# sleep 1
+# passwd "$username"
+
+# # Install sudo
+# echo -e "\n${COLOR}Installing sudo...${RESET}\n"
+# sleep 1
+# pacman -S --noconfirm sudo
+
+# # Grant sudo privileges to the wheel group
+# echo -e "\n${COLOR}Configuring sudoers file to allow wheel group...${RESET}\n"
+# sleep 1
+# sed -i 's/^#\s*%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Set nano as the default editor
 echo -e "\n${COLOR}Setting nano as the default editor...${RESET}\n"
 export EDITOR=nano
-
-# Install sudo
-echo -e "\n${COLOR}Installing sudo...${RESET}\n"
-sleep 1
-pacman -S --noconfirm sudo
-
-# Grant sudo privileges to the wheel group
-echo -e "\n${COLOR}Configuring sudoers file to allow wheel group...${RESET}\n"
-sleep 1
-sed -i 's/^#\s*%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Install networking and utility tools
 echo -e "\n${COLOR}Installing git, wget, zip, unzip, net-tools...${RESET}\n"
@@ -129,28 +129,28 @@ else
     echo -e "\n${COLOR}No services were disabled.${RESET}\n"
 fi
 
-# echo -e "\n${COLOR}Installing yay (AUR helper)...${RESET}\n"
+echo -e "\n${COLOR}Installing yay (AUR helper)...${RESET}\n"
 
-# # Step 1: Install Git (if not already installed)
-# pacman -S --needed git base-devel
+# Step 1: Install Git (if not already installed)
+pacman -S --needed git base-devel
 
-# # Step 2: Clone the yay repository from the AUR
-# git clone https://aur.archlinux.org/yay.git
+# Step 2: Clone the yay repository from the AUR
+git clone https://aur.archlinux.org/yay.git
 
-# # Step 3: Build and install yay
-# cd yay
-# makepkg -si --noconfirm
+# Step 3: Build and install yay
+cd yay
+makepkg -si --noconfirm
 
-# # Step 4: Clean up by removing the yay directory
-# cd ..
-# rm -rf yay
+# Step 4: Clean up by removing the yay directory
+cd ..
+rm -rf yay
 
-# echo -e "\n${COLOR}yay installation complete.${RESET}\n"
+echo -e "\n${COLOR}yay installation complete.${RESET}\n"
 
-# # Update the system
-# echo -e "\n${COLOR}Updating the system...${RESET}\n"
-# sleep 1
-# yay -Syu --noconfirm
+# Update the system
+echo -e "\n${COLOR}Updating the system...${RESET}\n"
+sleep 1
+yay -Syu --noconfirm
 
 # Prompt to clean up the script files
 echo -e "\n${COLOR}Do you want to delete the installation scripts (install.sh, post-install.sh, and chroot-install.sh)? [y/N]${RESET}\n"
