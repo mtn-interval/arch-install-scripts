@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.10 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.11 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -111,11 +111,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Re-read the partition table
-partprobe /dev/$disk
-
-
-
+# Wipe all filesystem signatures from the disk before partitioning
+echo -e "${CC_TEXT}Wiping any existing filesystem signatures on /dev/$disk...${CC_RESET}"
+wipefs -a /dev/$disk
+if [ $? -ne 0 ]; then
+    echo
+    echo "Failed to wipe filesystem signatures on /dev/$disk. Exiting."
+    exit 1
+fi
 
 # Partition the disk using fdisk
 echo
