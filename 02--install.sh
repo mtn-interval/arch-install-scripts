@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.07 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.08 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -83,10 +83,7 @@ while true; do
 done
 separator
 
-
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XX BREAK XX-----${CC_RESET}")"
-                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"                                                                                                                                        
+                                                                                                                                      
 
 
 # Wipe the partition table using sgdisk
@@ -105,17 +102,26 @@ pause
 
 # Detect and wipe all existing partitions using wipefs
 echo
-echo "Wiping filesystem signatures from all partitions on /dev/$disk..."
-for partition in $(lsblk -ln -o NAME /dev/$disk | grep "^${disk}[0-9]"); do
-    echo "Wiping /dev/$partition"
-    wipefs -a /dev/$partition
-    if [ $? -ne 0 ]; then
-        echo
-        echo "Failed to wipe /dev/$partition. Exiting."
-        echo
-        exit 1
-    fi
-done
+echo "Detecting and wiping filesystem signatures from all partitions on /dev/$disk..."
+
+# Get list of partitions
+partitions=$(lsblk -ln -o NAME /dev/$disk | grep "^${disk}[0-9]")
+
+# Check if any partitions were found
+if [ -z "$partitions" ]; then
+    echo "No partitions found on /dev/$disk."
+else
+    for partition in $partitions; do
+        echo "Wiping /dev/$partition"
+        wipefs -a /dev/$partition
+        if [ $? -ne 0 ]; then
+            echo
+            echo "Failed to wipe /dev/$partition. Exiting."
+            echo
+            exit 1
+        fi
+    done
+fi
 pause
 
 
@@ -161,6 +167,9 @@ if [ $? -ne 0 ]; then
 fi
 
 
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XX BREAK XX-----${CC_RESET}")"
+                                                                    read -p "$(echo -e "${CC_HEADER}-----XXXXXXXXXXX-----${CC_RESET}")"  
 
 
 # Mounting the first partition to /mnt
