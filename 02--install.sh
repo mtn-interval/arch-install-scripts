@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.22 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.23 ──────${CC_RESET}"
 echo
 sleep 1
 
