@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Install System Core  v0.09 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Install System Core  v0.10 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -83,46 +83,36 @@ while true; do
 done
 separator
 
-                                                                                                                                      
+                                                                                                                                    
 
 
-# Wipe the partition table using sgdisk
-echo -e "${CC_TEXT}Wiping the partition table on /dev/$disk...${CC_RESET}"
-sgdisk --zap-all /dev/$disk
-if [ $? -ne 0 ]; then
-    echo
-    echo "Failed to wipe partition table on /dev/$disk. Exiting."
-    echo
+
+# Check if the selected disk is valid
+if ! lsblk -d -n -o NAME | grep -qw "$disk"; then
+    echo "Invalid disk selected: $disk. Exiting."
     exit 1
 fi
-pause
 
+echo "Valid disk selected: /dev/$disk"
 
+# Use fdisk to delete all partitions on the disk
+echo -e "${CC_TEXT}Deleting all partitions on /dev/$disk using fdisk...${CC_RESET}"
 
+# Create an fdisk script to delete all partitions
+fdisk_commands=$(for part in $(lsblk -ln -o NAME /dev/$disk | grep "^${disk}[0-9]"); do echo "d"; done; echo "w")
 
-# Detect and wipe all existing partitions using wipefs
-echo
-echo "Detecting and wiping filesystem signatures from all partitions on /dev/$disk..."
+# Run fdisk and execute the delete commands
+echo -e "$fdisk_commands" | fdisk /dev/$disk
 
-# Get list of partitions
-partitions=$(lsblk -ln -o NAME /dev/$disk | grep "^${disk}[0-9]")
-
-# Check if any partitions were found
-if [ -z "$partitions" ]; then
-    echo "No partitions found on /dev/$disk."
-else
-    for partition in $partitions; do
-        echo "Wiping /dev/$partition"
-        wipefs -a /dev/"$partition"  # Prefix partition with /dev/
-        if [ $? -ne 0 ]; then
-            echo
-            echo "Failed to wipe /dev/$partition. Exiting."
-            echo
-            exit 1
-        fi
-    done
+# Check if fdisk succeeded
+if [ $? -ne 0 ]; then
+    echo
+    echo "Failed to delete partitions on /dev/$disk. Exiting."
+    exit 1
 fi
-pause
+
+# Re-read the partition table
+partprobe /dev/$disk
 
 
 
