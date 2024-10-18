@@ -220,7 +220,7 @@ separator
 
 
 # Chroot into the new system and run the second script
-echo -e "${CC_TEXT}Chrooting into the new system...${CC_RESET}"
+read -p "$(echo -e "${CC_TEXT}Press Enter to chroot into the new system...${CC_RESET}")"
 separator
 arch-chroot /mnt /root/03--chroot.sh
 separator
@@ -236,8 +236,11 @@ separator
 
 
 
+# Prompt for user to press Enter to continue
+echo -e "${CC_TEXT}The system is ready to proceed.${CC_RESET}"
+read -p "$(echo -e "${CC_TEXT}Press Enter to reboot...${CC_RESET}")"
 
 # Reboot the system
-echo -e "${CC_TEXT}Rebooting the system in 3 seconds...${CC_RESET}"
-sleep 3
+echo -e "${CC_TEXT}Rebooting the system in 2 seconds...${CC_RESET}"
+sleep 2
 reboot
