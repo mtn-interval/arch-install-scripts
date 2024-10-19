@@ -41,7 +41,7 @@ sleep 1
 
 # Define Mountain Interval repository
 base_url="https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/"
-files=("02--install.sh" "03--chroot.sh" "04--post.sh" "05--wm.sh")
+files=("02--install.sh" "03--chroot.sh" "04--post.sh" "05--soft.sh")
 
 
 

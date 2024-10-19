@@ -221,6 +221,7 @@ separator
 
 # Chroot into the new system and run the second script
 read -p "$(echo -e "${CC_TEXT}Press Enter to chroot into the new system...${CC_RESET}")"
+echo -e "${CC_TEXT}Running 03--chroot.sh...${CC_RESET}"
 separator
 arch-chroot /mnt /root/03--chroot.sh
 separator
