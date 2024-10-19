@@ -172,7 +172,9 @@ if ! grep -q "Check if 04--post.sh has already run" "$BASH_PROFILE"; then
 
 # Check if 04--post.sh has already run
 if [[ ! -f /home/$username/.post_install_done ]]; then
+    echo
     echo -e "\033[1;34;40mRunning post-install script...\033[0m"
+    echo
     /home/$username/04--post.sh
 
     # Create a marker file to indicate the script has been run

@@ -32,17 +32,9 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Post-installation setup  v0.03 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Post-installation setup  v0.04 ──────${CC_RESET}"
 echo
 sleep 1
-
-
-
-
-# Enable and start NetworkManager service
-echo -e "${CC_TEXT}Synchronizing all packages and upgrading system...${CC_RESET}"
-sudo pacman -Syu --noconfirm
-separator
 
 
 
@@ -74,6 +66,14 @@ echo
 # Connect to the Wi-Fi network using the provided SSID and password
 echo -e "${CC_TEXT}Connecting to Wi-Fi network...${CC_RESET}"
 nmcli device wifi connect "$ssid" password "$password"
+separator
+
+
+
+
+# Enable and start NetworkManager service
+echo -e "${CC_TEXT}Synchronizing all packages and upgrading system...${CC_RESET}"
+sudo pacman -Syu --noconfirm
 separator
 
 
