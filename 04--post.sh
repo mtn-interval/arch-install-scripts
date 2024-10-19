@@ -45,8 +45,8 @@ echo -e "${CC_TEXT}Starting post-installation setup...${CC_RESET}"
 # Enable and start NetworkManager service
 echo -e "${CC_TEXT}Enabling and starting NetworkManager service...${CC_RESET}"
 
-systemctl enable NetworkManager
-systemctl start NetworkManager
+sudo systemctl enable NetworkManager
+sudo systemctl start NetworkManager
 
 # Prompt the user for Wi-Fi SSID and password
 echo -e "${CC_TEXT}Please enter your Wi-Fi SSID:${CC_RESET}"
@@ -173,7 +173,8 @@ read -r delete_choice
 # If the user chooses 'y' or 'Y', delete the scripts
 if [[ "$delete_choice" == "y" || "$delete_choice" == "Y" ]]; then
     echo -e "${CC_TEXT}Deleting install.sh, post-install.sh, chroot-install.sh, and windowmanager.sh ...${CC_RESET}"
-    rm -f /root/install.sh /root/post-install.sh /root/chroot-install.sh /root/windowmanager.sh
+    sudo rm -f /root/*--*.sh
+    sudo rm -f ~/*--*.sh
     echo -e "${CC_TEXT}Scripts deleted.${CC_RESET}"
 else
     echo -e "${CC_TEXT}Scripts were not deleted.${CC_RESET}"

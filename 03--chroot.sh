@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Change root into the new system  v0.02 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Change root into the new system  v0.04 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -148,6 +148,15 @@ passwd "$username"
 echo -e "${CC_TEXT}Configuring sudoers file to allow wheel group...${CC_RESET}"
 sed -i 's/^#\s*%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 separator
+
+
+
+
+# Copy necessary install scripts to the new system
+echo -e "${CC_TEXT}Copying installation scripts to /home/$username...${CC_RESET}"
+cp *--*.sh /home/$username/
+separator
+
 
 
 
