@@ -175,10 +175,9 @@ if [[ ! -f /home/$username/.post_install_done ]]; then
     echo
     echo -e "\033[1;34;40mRunning post-install script...\033[0m"
     echo
-    /home/$username/04--post.sh
-
     # Create a marker file to indicate the script has been run
     touch /home/$username/.post_install_done
+    /home/$username/04--post.sh
 fi
 EOL
 
