@@ -37,23 +37,6 @@ clear
 
 
 
-echo -e "
-                     .
-                    / V\\
-                  / \`  /
-                 <<   |
-                 /    |
-               /      |
-             /        |
-           /    \\  \\ /
-          (      ) | |
-     _____|   _/_  | |
-   <_______\\______)\__)
-"
-echo
-
-
-
 # Script header
 echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.00 ──────${CC_RESET}"
 echo
