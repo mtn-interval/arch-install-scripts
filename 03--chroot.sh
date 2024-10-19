@@ -154,7 +154,7 @@ separator
 
 # Copy necessary install scripts to the new system
 echo -e "${CC_TEXT}Copying installation scripts to /home/$username...${CC_RESET}"
-cp *--*.sh /home/$username/
+cp *--*.sh "/home/$username/"
 separator
 
 
