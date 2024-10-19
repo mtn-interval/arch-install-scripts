@@ -116,7 +116,7 @@ echo -e "${CC_TEXT}Deploying Thinkpad tools:${CC_RESET}\n\
 - tp-smapi\n\
 - smartmontools${CC_RESET}"
 echo
-sudo pacman -S --noconfirm tlp tp-smapi smartmontools
+sudo pacman -S --noconfirm tlp tp_smapi smartmontools
 
 # Configure tools
 echo -e "${CC_TEXT}Configuring TLP...${CC_RESET}"
