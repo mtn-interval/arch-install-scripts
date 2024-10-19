@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Change root into the new system  v0.06 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Change root into the new system  v1.00 ──────${CC_RESET}"
 echo
 sleep 1
 

@@ -17,7 +17,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Debug  v0.02 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Debug  v1.00 ──────${CC_RESET}"
 echo
 
 

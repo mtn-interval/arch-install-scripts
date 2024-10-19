@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Post-installation setup  v0.05 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Post-installation setup  v1.00 ──────${CC_RESET}"
 echo
 sleep 1
 

@@ -38,7 +38,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.02 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.00 ──────${CC_RESET}"
 echo
 sleep 1
 
