@@ -10,31 +10,9 @@ CC_RESET='\033[0m'          # Reset CC_TEXT - To reset color coding.
 
 
 
-# Function to pause the script
-pause() {
-    sleep 0.2
-}
-
-
-
-
-# Define text separator style
-separator() {
-    echo -e "${CC_TEXT}│${CC_RESET}"
-    pause
-    echo -e "${CC_TEXT}│${CC_RESET}"
-    pause
-    echo -e "${CC_TEXT}│${CC_RESET}"
-    pause
-}
-
-
-
-
 # Script header
 echo -e "${CC_HEADER}────── Debug  v0.01 ──────${CC_RESET}"
 echo
-sleep 1
 
 
 
