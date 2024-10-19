@@ -62,10 +62,10 @@ separator
 
 
 
-# Install terminal emulator, compositor, wallpaper manager, and other utilities
-echo -e "${CC_TEXT}Installing Alacritty, Picom, Nitrogen, and Unclutter...${CC_RESET}"
-pacman -S --noconfirm alacritty picom nitrogen unclutter
-separator
+# # Install terminal emulator, compositor, wallpaper manager, and other utilities
+# echo -e "${CC_TEXT}Installing Alacritty, Picom, Nitrogen, and Unclutter...${CC_RESET}"
+# pacman -S --noconfirm alacritty picom nitrogen unclutter
+# separator
 
 
 
