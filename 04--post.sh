@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Post-installation setup  v0.04 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Post-installation setup  v0.05 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -113,7 +113,7 @@ separator
 # Install and configure TLP for power management
 echo -e "${CC_TEXT}Deploying Thinkpad tools:${CC_RESET}\n\
 - tlp\n\
-- tp-smapi\n\
+- tp_smapi\n\
 - smartmontools${CC_RESET}"
 echo
 sudo pacman -S --noconfirm tlp tp_smapi smartmontools
