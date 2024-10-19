@@ -10,6 +10,12 @@ CC_RESET='\033[0m'          # Reset CC_TEXT - To reset color coding.
 
 
 
+# Clear screen
+clear
+
+
+
+
 # Script header
 echo -e "${CC_HEADER}────── Debug  v0.02 ──────${CC_RESET}"
 echo
