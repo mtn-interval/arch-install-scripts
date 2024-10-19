@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Change root into the new system  v0.04 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Change root into the new system  v0.05 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -154,7 +154,7 @@ separator
 
 # Copy necessary install scripts to the new system
 echo -e "${CC_TEXT}Copying installation scripts to /home/$username...${CC_RESET}"
-cp *--*.sh "/home/$username/"
+cp /root/*--*.sh "/home/$username/"
 separator
 
 
