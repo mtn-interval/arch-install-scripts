@@ -38,7 +38,7 @@ clear
 
 
 # Script header
-echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.01 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Arch Linux Install Script  v1.02 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -141,10 +141,31 @@ separator
 
 
 
-# Ensure packages are up to date
-echo -e "${CC_TEXT}Synchronizing package database...${CC_RESET}"
-pacman -Sy --noconfirm
-echo -e "${CC_TEXT}Local database updated.${CC_RESET}"
+# Initialize pacman keyring
+echo -e "${CC_TEXT}Initializing the pacman keyring...${CC_RESET}"
+pacman-key --init
+if [ $? -ne 0 ]; then
+    echo "Failed to initialize pacman keyring. Exiting."
+    exit 1
+fi
+echo
+
+# Populate the keyring with Arch Linux keys
+echo -e "${CC_TEXT}Populating the pacman keyring with Arch Linux keys...${CC_RESET}"
+pacman-key --populate archlinux
+if [ $? -ne 0 ]; then
+    echo "Failed to populate pacman keyring with Arch Linux keys. Exiting."
+    exit 1
+fi
+echo
+
+# Update the Arch Linux keyring
+echo -e "${CC_TEXT}Synchronizing the package database and updating archlinux-keyring...${CC_RESET}"
+pacman -Sy --noconfirm archlinux-keyring
+if [ $? -ne 0 ]; then
+    echo "Failed to update archlinux-keyring. Exiting."
+    exit 1
+fi
 separator
 
 
