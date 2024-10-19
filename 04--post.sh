@@ -62,29 +62,7 @@ echo -e "${CC_TEXT}Connecting to Wi-Fi network...${CC_RESET}"
 
 nmcli device wifi connect "$ssid" password "$password"
 
-# # Prompt the user for a new username
-# echo -e "${CC_TEXT}Please enter the username for the new user:${CC_RESET}"
-# 
-# read username
 
-# # Create the new user and prompt for password
-# echo -e "${CC_TEXT}Creating user $username...${CC_RESET}"
-# 
-# useradd -m -G wheel -s /bin/bash "$username"
-
-# echo -e "${CC_TEXT}Setting password for $username...${CC_RESET}"
-# 
-# passwd "$username"
-
-# # Install sudo
-# echo -e "${CC_TEXT}Installing sudo...${CC_RESET}"
-# 
-# pacman -S --noconfirm sudo
-
-# # Grant sudo privileges to the wheel group
-# echo -e "${CC_TEXT}Configuring sudoers file to allow wheel group...${CC_RESET}"
-# 
-# sed -i 's/^#\s*%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Set nano as the default editor
 echo -e "${CC_TEXT}Setting nano as the default editor...${CC_RESET}"
@@ -93,41 +71,41 @@ export EDITOR=nano
 # Install networking and utility tools
 echo -e "${CC_TEXT}Installing git, wget, zip, unzip, net-tools...${CC_RESET}"
 
-pacman -S --noconfirm git wget zip unzip net-tools
+sudo pacman -S --noconfirm git wget zip unzip net-tools
 
-# Install and configure TLP for power management
-echo -e "${CC_TEXT}Installing and configuring TLP...${CC_RESET}"
+# # Install and configure TLP for power management
+# echo -e "${CC_TEXT}Installing and configuring TLP...${CC_RESET}"
 
-pacman -S --noconfirm tlp
-systemctl enable tlp
-systemctl start tlp
+# pacman -S --noconfirm tlp
+# systemctl enable tlp
+# systemctl start tlp
 
-# Install and configure tp_smapi and smartmontools for ThinkPad power management
-echo -e "${CC_TEXT}Installing tp_smapi and smartmontools...${CC_RESET}"
+# # Install and configure tp_smapi and smartmontools for ThinkPad power management
+# echo -e "${CC_TEXT}Installing tp_smapi and smartmontools...${CC_RESET}"
 
-pacman -S --noconfirm tp_smapi smartmontools
-modprobe tp_smapi
-echo "tp_smapi" > /etc/modules-load.d/tp_smapi.conf
-systemctl enable smartd
-systemctl start smartd
+# pacman -S --noconfirm tp_smapi smartmontools
+# modprobe tp_smapi
+# echo "tp_smapi" > /etc/modules-load.d/tp_smapi.conf
+# systemctl enable smartd
+# systemctl start smartd
 
-# Install and configure UFW firewall
-echo -e "${CC_TEXT}Installing and configuring UFW...${CC_RESET}"
+# # Install and configure UFW firewall
+# echo -e "${CC_TEXT}Installing and configuring UFW...${CC_RESET}"
 
-pacman -S --noconfirm ufw
-systemctl enable ufw
-systemctl start ufw
-ufw enable
+# pacman -S --noconfirm ufw
+# systemctl enable ufw
+# systemctl start ufw
+# ufw enable
 
-# Install Glances for system monitoring
-echo -e "${CC_TEXT}Installing Glances...${CC_RESET}"
+# # Install Glances for system monitoring
+# echo -e "${CC_TEXT}Installing Glances...${CC_RESET}"
 
-pacman -S --noconfirm glances
+# pacman -S --noconfirm glances
 
 # Install bash-completion
 echo -e "${CC_TEXT}Installing bash-completion...${CC_RESET}"
 
-pacman -S --noconfirm bash-completion
+sudo pacman -S --noconfirm bash-completion
 
 # Add bash-completion configuration to .bashrc
 echo -e "${CC_TEXT}Configuring bash-completion in .bashrc...${CC_RESET}"
@@ -167,7 +145,7 @@ fi
 echo -e "${CC_TEXT}Installing yay (AUR helper)...${CC_RESET}"
 
 # Step 1: Install Git (if not already installed)
-pacman -Syu --needed --noconfirm git base-devel
+sudo pacman -Syu --needed --noconfirm git base-devel
 
 # Step 2: Clone the yay repository from the AUR
 git clone https://aur.archlinux.org/yay.git
