@@ -1,75 +1,110 @@
 #!/bin/bash
 
-# Define a color variable for echo messages
-COLOR="\033[1;34m"  # Blue
-RESET="\033[0m"      # Reset to default
+# Automation script by Mountain Interval
 
-echo -e "\n${COLOR}Starting post-installation setup...${RESET}\n"
+# CC_TEXT codes for output
+CC_HEADER='\033[1;35;44m'   # Bold Magenta on Blue background - To mark sections or major steps in the script.
+CC_TEXT='\033[1;34;40m'     # Bold Blue on Black background - For general text, prompts, and success messages.
+CC_RESET='\033[0m'          # Reset CC_TEXT - To reset color coding.
+
+
+
+
+# Function to pause the script
+pause() {
+    sleep 0.2
+}
+
+
+
+
+# Define text separator style
+separator() {
+    echo -e "${CC_TEXT}│${CC_RESET}"
+    pause
+    echo -e "${CC_TEXT}│${CC_RESET}"
+    pause
+    echo -e "${CC_TEXT}│${CC_RESET}"
+    pause
+}
+
+
+
+
+# Script header
+echo -e "${CC_HEADER}────── Post-installation setup  v0.01──────${CC_RESET}"
+echo
 sleep 1
+
+
+
+
+echo -e "${CC_TEXT}Starting post-installation setup...${CC_RESET}"
+
 
 # Enable and start NetworkManager service
-echo -e "\n${COLOR}Enabling and starting NetworkManager service...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Enabling and starting NetworkManager service...${CC_RESET}"
+
 systemctl enable NetworkManager
 systemctl start NetworkManager
 
 # Prompt the user for Wi-Fi SSID and password
-echo -e "\n${COLOR}Please enter your Wi-Fi SSID:${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Please enter your Wi-Fi SSID:${CC_RESET}"
+
 read ssid
 
-echo -e "\n${COLOR}Please enter your Wi-Fi password:${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Please enter your Wi-Fi password:${CC_RESET}"
+
 read -s password  # '-s' hides input for security
 
 # Connect to the Wi-Fi network using the provided SSID and password
-echo -e "\n${COLOR}Connecting to Wi-Fi network...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Connecting to Wi-Fi network...${CC_RESET}"
+
 nmcli device wifi connect "$ssid" password "$password"
 
 # # Prompt the user for a new username
-# echo -e "\n${COLOR}Please enter the username for the new user:${RESET}\n"
-# sleep 1
+# echo -e "${CC_TEXT}Please enter the username for the new user:${CC_RESET}"
+# 
 # read username
 
 # # Create the new user and prompt for password
-# echo -e "\n${COLOR}Creating user $username...${RESET}\n"
-# sleep 1
+# echo -e "${CC_TEXT}Creating user $username...${CC_RESET}"
+# 
 # useradd -m -G wheel -s /bin/bash "$username"
 
-# echo -e "\n${COLOR}Setting password for $username...${RESET}\n"
-# sleep 1
+# echo -e "${CC_TEXT}Setting password for $username...${CC_RESET}"
+# 
 # passwd "$username"
 
 # # Install sudo
-# echo -e "\n${COLOR}Installing sudo...${RESET}\n"
-# sleep 1
+# echo -e "${CC_TEXT}Installing sudo...${CC_RESET}"
+# 
 # pacman -S --noconfirm sudo
 
 # # Grant sudo privileges to the wheel group
-# echo -e "\n${COLOR}Configuring sudoers file to allow wheel group...${RESET}\n"
-# sleep 1
+# echo -e "${CC_TEXT}Configuring sudoers file to allow wheel group...${CC_RESET}"
+# 
 # sed -i 's/^#\s*%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Set nano as the default editor
-echo -e "\n${COLOR}Setting nano as the default editor...${RESET}\n"
+echo -e "${CC_TEXT}Setting nano as the default editor...${CC_RESET}"
 export EDITOR=nano
 
 # Install networking and utility tools
-echo -e "\n${COLOR}Installing git, wget, zip, unzip, net-tools...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Installing git, wget, zip, unzip, net-tools...${CC_RESET}"
+
 pacman -S --noconfirm git wget zip unzip net-tools
 
 # Install and configure TLP for power management
-echo -e "\n${COLOR}Installing and configuring TLP...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Installing and configuring TLP...${CC_RESET}"
+
 pacman -S --noconfirm tlp
 systemctl enable tlp
 systemctl start tlp
 
 # Install and configure tp_smapi and smartmontools for ThinkPad power management
-echo -e "\n${COLOR}Installing tp_smapi and smartmontools...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Installing tp_smapi and smartmontools...${CC_RESET}"
+
 pacman -S --noconfirm tp_smapi smartmontools
 modprobe tp_smapi
 echo "tp_smapi" > /etc/modules-load.d/tp_smapi.conf
@@ -77,62 +112,62 @@ systemctl enable smartd
 systemctl start smartd
 
 # Install and configure UFW firewall
-echo -e "\n${COLOR}Installing and configuring UFW...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Installing and configuring UFW...${CC_RESET}"
+
 pacman -S --noconfirm ufw
 systemctl enable ufw
 systemctl start ufw
 ufw enable
 
 # Install Glances for system monitoring
-echo -e "\n${COLOR}Installing Glances...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Installing Glances...${CC_RESET}"
+
 pacman -S --noconfirm glances
 
 # Install bash-completion
-echo -e "\n${COLOR}Installing bash-completion...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Installing bash-completion...${CC_RESET}"
+
 pacman -S --noconfirm bash-completion
 
 # Add bash-completion configuration to .bashrc
-echo -e "\n${COLOR}Configuring bash-completion in .bashrc...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Configuring bash-completion in .bashrc...${CC_RESET}"
+
 if ! grep -q "bash-completion" ~/.bashrc; then
     echo "[ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion" >> ~/.bashrc
-    echo -e "\n${COLOR}bash-completion added to .bashrc.${RESET}\n"
+    echo -e "${CC_TEXT}bash-completion added to .bashrc.${CC_RESET}"
 else
-    echo -e "\n${COLOR}bash-completion is already configured in .bashrc.${RESET}\n"
+    echo -e "${CC_TEXT}bash-completion is already configured in .bashrc.${CC_RESET}"
 fi
 
 # Reload .bashrc to apply changes
-echo -e "\n${COLOR}Reloading .bashrc to apply changes...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Reloading .bashrc to apply changes...${CC_RESET}"
+
 source ~/.bashrc
 
 # List enabled services
-echo -e "\n${COLOR}Listing enabled services...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Listing enabled services...${CC_RESET}"
+
 systemctl list-unit-files --state=enabled
 
 # Prompt the user for services to disable
-echo -e "\n${COLOR}Please enter the names of the services you wish to disable, separated by spaces (or press Enter to skip):${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Please enter the names of the services you wish to disable, separated by spaces (or press Enter to skip):${CC_RESET}"
+
 read -a services_to_disable
 
 # Disable the services entered by the user
 if [ -n "${services_to_disable[*]}" ]; then
     for service in "${services_to_disable[@]}"; do
-        echo -e "\n${COLOR}Disabling $service...${RESET}\n"
+        echo -e "${CC_TEXT}Disabling $service...${CC_RESET}"
         systemctl disable "$service"
     done
 else
-    echo -e "\n${COLOR}No services were disabled.${RESET}\n"
+    echo -e "${CC_TEXT}No services were disabled.${CC_RESET}"
 fi
 
-echo -e "\n${COLOR}Installing yay (AUR helper)...${RESET}\n"
+echo -e "${CC_TEXT}Installing yay (AUR helper)...${CC_RESET}"
 
 # Step 1: Install Git (if not already installed)
-pacman -S --needed git base-devel
+pacman -Syu --needed --noconfirm git base-devel
 
 # Step 2: Clone the yay repository from the AUR
 git clone https://aur.archlinux.org/yay.git
@@ -145,26 +180,26 @@ makepkg -si --noconfirm
 cd ..
 rm -rf yay
 
-echo -e "\n${COLOR}yay installation complete.${RESET}\n"
+echo -e "${CC_TEXT}yay installation complete.${CC_RESET}"
 
 # Update the system
-echo -e "\n${COLOR}Updating the system...${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Updating the system...${CC_RESET}"
+
 yay -Syu --noconfirm
 
 # Prompt to clean up the script files
-echo -e "\n${COLOR}Do you want to delete the installation scripts (install.sh, post-install.sh, and chroot-install.sh)? [y/N]${RESET}\n"
-sleep 1
+echo -e "${CC_TEXT}Do you want to delete the installation scripts (install.sh, post-install.sh, and chroot-install.sh)? [y/N]${CC_RESET}"
+
 read -r delete_choice
 
 # If the user chooses 'y' or 'Y', delete the scripts
 if [[ "$delete_choice" == "y" || "$delete_choice" == "Y" ]]; then
-    echo -e "\n${COLOR}Deleting install.sh, post-install.sh, chroot-install.sh, and windowmanager.sh ...${RESET}\n"
+    echo -e "${CC_TEXT}Deleting install.sh, post-install.sh, chroot-install.sh, and windowmanager.sh ...${CC_RESET}"
     rm -f /root/install.sh /root/post-install.sh /root/chroot-install.sh /root/windowmanager.sh
-    echo -e "\n${COLOR}Scripts deleted.${RESET}\n"
+    echo -e "${CC_TEXT}Scripts deleted.${CC_RESET}"
 else
-    echo -e "\n${COLOR}Scripts were not deleted.${RESET}\n"
+    echo -e "${CC_TEXT}Scripts were not deleted.${CC_RESET}"
 fi
 
 
-echo -e "\n${COLOR}Post-installation setup complete!${RESET}\n"
+echo -e "${CC_TEXT}Post-installation setup complete!${CC_RESET}"
