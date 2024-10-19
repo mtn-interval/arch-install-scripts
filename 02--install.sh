@@ -214,6 +214,7 @@ separator
 # Copy necessary install scripts to the new system
 echo -e "${CC_TEXT}Copying installation scripts to /mnt/root...${CC_RESET}"
 cp *--*.sh /mnt/root/
+cp debug.sh /mnt/root/
 separator
 
 

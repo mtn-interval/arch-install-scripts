@@ -110,21 +110,18 @@ separator
 
 
 
-# Install and configure TLP for power management
+# Install and configure Thinkpad tools
 echo -e "${CC_TEXT}Deploying Thinkpad tools:${CC_RESET}\n\
 - tlp\n\
-- tp_smapi\n\
 - smartmontools${CC_RESET}"
 echo
-sudo pacman -S --noconfirm tlp tp_smapi smartmontools
+sudo pacman -S --noconfirm tlp smartmontools
 
 # Configure tools
 echo -e "${CC_TEXT}Configuring TLP...${CC_RESET}"
 sudo systemctl enable tlp
 sudo systemctl start tlp
-echo -e "${CC_TEXT}Configuring ThinkPad SMAPI Support...${CC_RESET}"
-sudo modprobe tp_smapi
-echo "tp_smapi" > /etc/modules-load.d/tp_smapi.conf
+echo -e "${CC_TEXT}Configuring storage device health monitoring...${CC_RESET}"
 sudo systemctl enable smartd
 sudo systemctl start smartd
 separator
