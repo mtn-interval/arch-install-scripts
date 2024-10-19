@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Pre-install  v1.01 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Pre-install  v1.02 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -41,7 +41,7 @@ sleep 1
 
 # Define Mountain Interval repository
 base_url="https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/"
-files=("02--install.sh" "03--chroot.sh" "04--post.sh" "05--soft.sh")
+files=("02--install.sh" "03--chroot.sh" "04--post.sh" "05--soft.sh" "debug.sh")
 
 
 
