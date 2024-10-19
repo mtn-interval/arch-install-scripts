@@ -171,7 +171,7 @@ if ! grep -q "Check if 04--post.sh has already run" "$BASH_PROFILE"; then
     # Append the block to the .bash_profile file
     cat <<EOL >> "$BASH_PROFILE"
 
-# Check if 04--post.sh has already run
+# start marker
 if [[ ! -f /home/$username/.post_install_done ]]; then
     echo
     echo -e "\033[1;34;40mRunning post-install script...\033[0m"
@@ -179,7 +179,7 @@ if [[ ! -f /home/$username/.post_install_done ]]; then
     # Create a marker file to indicate the script has been run
     touch /home/$username/.post_install_done
     /home/$username/04--post.sh
-fi
+fi # end marker
 EOL
 
     echo "Post-install block added to .bash_profile."

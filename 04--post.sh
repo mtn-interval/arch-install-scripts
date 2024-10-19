@@ -200,7 +200,7 @@ separator
 
 # Remove the lines added to .bash_profile after running
 echo -e "${CC_TEXT}Cleaning up.${CC_RESET}"
-sed -i '/# Check if 04--post.sh has already run/,/fi/d' ~/.bash_profile
+sed -i '/# start marker/,/# end marker/d' ~/.bash_profile
 
 # Remove the marker file too (if you don't need it anymore)
 rm ~/.post_install_done
