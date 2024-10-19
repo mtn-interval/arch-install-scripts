@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Post-installation setup  v0.02 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Post-installation setup  v0.03 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -196,6 +196,17 @@ if [[ "$delete_choice" == "y" ]]; then
 else
     echo -e "${CC_TEXT}Scripts were not deleted.${CC_RESET}"
 fi
+separator
+
+
+
+
+# Remove the lines added to .bash_profile after running
+echo -e "${CC_TEXT}Cleaning up.${CC_RESET}"
+sed -i '/# Check if 04--post.sh has already run/,/fi/d' ~/.bash_profile
+
+# Remove the marker file too (if you don't need it anymore)
+rm ~/.post_install_done
 separator
 
 

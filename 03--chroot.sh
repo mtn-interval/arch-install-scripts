@@ -32,7 +32,7 @@ separator() {
 
 
 # Script header
-echo -e "${CC_HEADER}────── Change root into the new system  v0.05 ──────${CC_RESET}"
+echo -e "${CC_HEADER}────── Change root into the new system  v0.06 ──────${CC_RESET}"
 echo
 sleep 1
 
@@ -155,6 +155,35 @@ separator
 # Copy necessary install scripts to the new system
 echo -e "${CC_TEXT}Copying installation scripts to /home/$username...${CC_RESET}"
 cp /root/*--*.sh "/home/$username/"
+separator
+
+
+
+
+# Define the target .bash_profile file
+BASH_PROFILE="/home/$username/.bash_profile"
+
+# Check if the block is already present
+if ! grep -q "Check if 04--post.sh has already run" "$BASH_PROFILE"; then
+    echo "Appending post-install check to .bash_profile..."
+
+    # Append the block to the .bash_profile file
+    cat <<EOL >> "$BASH_PROFILE"
+
+# Check if 04--post.sh has already run
+if [[ ! -f /home/$username/.post_install_done ]]; then
+    echo -e "\033[1;34;40mRunning post-install script...\033[0m"
+    /home/$username/04--post.sh
+
+    # Create a marker file to indicate the script has been run
+    touch /home/$username/.post_install_done
+fi
+EOL
+
+    echo "Post-install block added to .bash_profile."
+else
+    echo "Post-install block already exists in .bash_profile."
+fi
 separator
 
 
