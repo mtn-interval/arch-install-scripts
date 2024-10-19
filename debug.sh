@@ -36,22 +36,22 @@ read -p "Enter the number corresponding to your choice: " choice
 
 case $choice in
     0)
-        rm -f *--*.sh && wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/00--init.sh && chmod +x 00--init.sh && ./00--init.sh
+        rm -f *--*.sh && wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/00--init.sh && chmod +x 00--init.sh && ./00--init.sh
         ;;
     1)
-        rm -f *--*.sh && wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/01--pre.sh && chmod +x 01--pre.sh && ./01--pre.sh
+        rm -f *--*.sh && wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/01--pre.sh && chmod +x 01--pre.sh && ./01--pre.sh
         ;;
     2)
-        rm -f *--*.sh && wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/02--install.sh && chmod +x 02--install.sh && ./02--install.sh
+        rm -f *--*.sh && wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/02--install.sh && chmod +x 02--install.sh && ./02--install.sh
         ;;
     3)
-        rm -f *--*.sh && wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/03--chroot.sh && chmod +x 03--chroot.sh && ./03--chroot.sh
+        rm -f *--*.sh && wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/03--chroot.sh && chmod +x 03--chroot.sh && ./03--chroot.sh
         ;;
     4)
-        rm -f *--*.sh && wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/04--post.sh && chmod +x 04--post.sh && ./04--post.sh
+        rm -f *--*.sh && wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/04--post.sh && chmod +x 04--post.sh && ./04--post.sh
         ;;
     5)
-        rm -f *--*.sh && wget https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/05--soft.sh && chmod +x 05--soft.sh && ./05--soft.sh
+        rm -f *--*.sh && wget --no-cache https://raw.githubusercontent.com/mtn-interval/arch-install-scripts/main/05--soft.sh && chmod +x 05--soft.sh && ./05--soft.sh
         ;;
     *)
         echo "Invalid option. Exiting..."
